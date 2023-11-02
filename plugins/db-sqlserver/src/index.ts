@@ -13,18 +13,18 @@ import {
   LookupResolvedProperties,
   ModuleMap,
   types,
-} from "@amplication/code-gen-types";
-import { getPluginSettings } from "./utils";
+} from '@amplication/code-gen-types';
+import { getPluginSettings } from './utils';
 import {
   dataSource,
   updateDockerComposeDevProperties,
   updateDockerComposeProperties,
-} from "./constants";
-import { ReferentialActions, ScalarType } from "prisma-schema-dsl-types";
-import * as PrismaSchemaDSL from "prisma-schema-dsl";
-import * as PrismaSchemaDSLTypes from "prisma-schema-dsl-types";
-import { camelCase } from "camel-case";
-import { pascalCase } from "pascal-case";
+} from './constants';
+import { ReferentialActions, ScalarType } from 'prisma-schema-dsl-types';
+import * as PrismaSchemaDSL from 'prisma-schema-dsl';
+import * as PrismaSchemaDSLTypes from 'prisma-schema-dsl-types';
+import { camelCase } from 'camel-case';
+import { pascalCase } from 'pascal-case';
 
 class MSSQLServerPlugin implements AmplicationPlugin {
   register(): Events {
@@ -198,7 +198,7 @@ class MSSQLServerPlugin implements AmplicationPlugin {
       );
 
       const idType =
-        (relatedEntityFiledId?.properties as types.Id)?.idType ?? "CUID";
+        (relatedEntityFiledId?.properties as types.Id)?.idType ?? 'CUID';
 
       return [
         PrismaSchemaDSL.createObjectField(
@@ -209,12 +209,12 @@ class MSSQLServerPlugin implements AmplicationPlugin {
           relationName,
           [scalarRelationFieldName],
           [
-            "id",
+            'id',
           ] /**@todo: calculate the referenced field on the related entity (currently it is always 'id') */,
           ReferentialActions.NoAction,
           ReferentialActions.NoAction,
           undefined,
-          field.customAttributes || undefined 
+          field.customAttributes || undefined
         ),
         // Prisma Scalar Relation Field
         PrismaSchemaDSL.createScalarField(
@@ -278,7 +278,7 @@ class MSSQLServerPlugin implements AmplicationPlugin {
       const names = [matchingRelatedEntityName, matchingEntityName];
       // Sort names for deterministic results regardless of entity and related order
       names.sort();
-      return names.join("On");
+      return names.join('On');
     }
     if (fieldHasUniqueName || relatedFieldHasUniqueName) {
       const names = [];
@@ -292,18 +292,18 @@ class MSSQLServerPlugin implements AmplicationPlugin {
       names.sort();
       return names[0];
     }
-    const entityAndField = [entity.name, field.name].join(" ");
+    const entityAndField = [entity.name, field.name].join(' ');
     const relatedEntityAndField = [relatedEntity.name, relatedField.name].join(
-      " "
+      ' '
     );
     const parts = [entityAndField, relatedEntityAndField];
     // Sort parts for deterministic results regardless of entity and related order
     parts.sort();
-    return pascalCase(parts.join(" "));
+    return pascalCase(parts.join(' '));
   }
 
   private static idTypeToPrismaScalarType: {
-    [key in types.Id["idType"]]: PrismaSchemaDSLTypes.ScalarType;
+    [key in types.Id['idType']]: PrismaSchemaDSLTypes.ScalarType;
   } = {
     AUTO_INCREMENT: PrismaSchemaDSLTypes.ScalarType.Int,
     AUTO_INCREMENT_BIG_INT: PrismaSchemaDSLTypes.ScalarType.BigInt,

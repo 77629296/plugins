@@ -1,8 +1,8 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { ClientRedis } from "@nestjs/microservices";
-import { REDIS_BROKER_CLIENT } from "./constants";
-import { RedisMessage } from "./redisMessage";
-import { AllMessageBrokerTopics } from "./topics";
+import { Inject, Injectable } from '@nestjs/common';
+import { ClientRedis } from '@nestjs/microservices';
+import { REDIS_BROKER_CLIENT } from './constants';
+import { RedisMessage } from './redisMessage';
+import { AllMessageBrokerTopics } from './topics';
 
 @Injectable()
 export class RedisProducerService {

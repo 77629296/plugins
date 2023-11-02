@@ -5,18 +5,18 @@ import {
   EnumEntityPermissionType,
   EnumEntityAction,
   DsgContext,
-} from "@amplication/code-gen-types";
+} from '@amplication/code-gen-types';
 
-export const USER_ENTITY_NAME = "User";
-export const USER_NAME_FIELD_NAME = "username";
-export const USER_PASSWORD_FIELD_NAME = "password";
-export const USER_ROLES_FIELD_NAME = "roles";
+export const USER_ENTITY_NAME = 'User';
+export const USER_NAME_FIELD_NAME = 'username';
+export const USER_PASSWORD_FIELD_NAME = 'password';
+export const USER_ROLES_FIELD_NAME = 'roles';
 
 export const USER_NAME_FIELD: EntityField = {
-  id: "USER_NAME_FIELD",
-  permanentId: "USER_NAME_FIELD_PERMANENT_ID",
+  id: 'USER_NAME_FIELD',
+  permanentId: 'USER_NAME_FIELD_PERMANENT_ID',
   name: USER_NAME_FIELD_NAME,
-  displayName: "Username",
+  displayName: 'Username',
   dataType: EnumDataType.Username,
   required: true,
   unique: true,
@@ -24,10 +24,10 @@ export const USER_NAME_FIELD: EntityField = {
 };
 
 export const USER_PASSWORD_FIELD: EntityField = {
-  id: "USER_PASSWORD_FIELD",
-  permanentId: "USER_PASSWORD_FIELD_PERMANENT_ID",
+  id: 'USER_PASSWORD_FIELD',
+  permanentId: 'USER_PASSWORD_FIELD_PERMANENT_ID',
   name: USER_PASSWORD_FIELD_NAME,
-  displayName: "Password",
+  displayName: 'Password',
   dataType: EnumDataType.Password,
   required: true,
   unique: false,
@@ -35,10 +35,10 @@ export const USER_PASSWORD_FIELD: EntityField = {
 };
 
 export const USER_ROLES_FIELD: EntityField = {
-  id: "USER_ROLES_FIELD",
-  permanentId: "USER_ROLES_FIELD_PERMANENT_ID",
+  id: 'USER_ROLES_FIELD',
+  permanentId: 'USER_ROLES_FIELD_PERMANENT_ID',
   name: USER_ROLES_FIELD_NAME,
-  displayName: "Roles",
+  displayName: 'Roles',
   dataType: EnumDataType.Roles,
   required: true,
   unique: false,
@@ -47,10 +47,10 @@ export const USER_ROLES_FIELD: EntityField = {
 };
 
 export const USER_ID_FIELD: EntityField = {
-  id: "USER_ID_FIELD",
-  permanentId: "USER_ID_FIELD_PERMANENT_ID",
-  name: "id",
-  displayName: "Id",
+  id: 'USER_ID_FIELD',
+  permanentId: 'USER_ID_FIELD_PERMANENT_ID',
+  name: 'id',
+  displayName: 'Id',
   dataType: EnumDataType.Id,
   required: true,
   unique: false,
@@ -64,11 +64,11 @@ export const USER_AUTH_FIELDS: EntityField[] = [
 ];
 
 export const DEFAULT_USER_ENTITY: Entity = {
-  id: "user-model-id",
+  id: 'user-model-id',
   name: USER_ENTITY_NAME,
-  displayName: "User",
-  pluralDisplayName: "Users",
-  pluralName: "Users",
+  displayName: 'User',
+  pluralDisplayName: 'Users',
+  pluralName: 'Users',
   fields: [USER_ID_FIELD, ...USER_AUTH_FIELDS],
   permissions: [
     {
@@ -109,7 +109,7 @@ export class InvalidDataTypeError extends Error {
     super(
       `Invalid fields data types: ${fields
         .map((field) => `${field.name} data type should be ${field.dataType}`)
-        .join(", ")}`
+        .join(', ')}`
     );
   }
 }

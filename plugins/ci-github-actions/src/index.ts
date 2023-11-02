@@ -5,19 +5,19 @@ import type {
   Events,
   Module,
   ModuleMap,
-} from "@amplication/code-gen-types";
+} from '@amplication/code-gen-types';
 import {
   authenticationPasswordKey,
   authenticationUsernameKey,
   imageKey,
   serviceWorkingDirectoryKey,
   serviceNameKey,
-} from "./constants";
-import { getPluginSettings } from "./utils";
-import { EventNames } from "@amplication/code-gen-types";
-import { resolve } from "path";
-import { kebabCase } from "lodash";
-import { GitHubAuthenticationMethods, RegistryProviders } from "./types";
+} from './constants';
+import { getPluginSettings } from './utils';
+import { EventNames } from '@amplication/code-gen-types';
+import { resolve } from 'path';
+import { kebabCase } from 'lodash';
+import { GitHubAuthenticationMethods, RegistryProviders } from './types';
 
 class GithubActionsPlugin implements AmplicationPlugin {
   register(): Events {
@@ -40,7 +40,7 @@ class GithubActionsPlugin implements AmplicationPlugin {
     const serviceName = kebabCase(context.resourceInfo?.name);
 
     if (!serviceName) {
-      throw new Error("Service name is undefined");
+      throw new Error('Service name is undefined');
     }
 
     // getPluginSettings: fetch user settings + merge with default settings
@@ -63,16 +63,16 @@ class GithubActionsPlugin implements AmplicationPlugin {
     let staticPath;
     let staticFiles;
 
-    const templateFileName: string = "workflow.yaml";
-    const workflowFileNamePrefix: string = "ci-";
-    const workflowFileNameSuffix: string = ".yaml";
-    const outputDirectory: string = "./.github/workflows/";
+    const templateFileName: string = 'workflow.yaml';
+    const workflowFileNamePrefix: string = 'ci-';
+    const workflowFileNameSuffix: string = '.yaml';
+    const outputDirectory: string = './.github/workflows/';
 
     const succesfullPluginCodeGeneration: string =
-      "Generated GitHub Actions workflow...";
+      'Generated GitHub Actions workflow...';
 
     if (settings.registry == RegistryProviders.GitHub) {
-      const githubStaticFiles: string = "./static/github/";
+      const githubStaticFiles: string = './static/github/';
 
       staticPath = resolve(__dirname, githubStaticFiles);
       staticFiles = await context.utils.importStaticModules(
@@ -84,7 +84,7 @@ class GithubActionsPlugin implements AmplicationPlugin {
       // define the image name so that the image can be pushed to the
       // github packages of the users profile or organization if specfied
       // in the registry_path instead.
-      const registryUrl = "ghcr.io";
+      const registryUrl = 'ghcr.io';
       const image = settings.configuration?.registry_path
         ? `${registryUrl}/${settings.configuration?.registry_path}/${serviceName}`
         : `${registryUrl}/\${{ github.actor }}/${serviceName}`;
@@ -93,8 +93,8 @@ class GithubActionsPlugin implements AmplicationPlugin {
       // to what registry the push the container images to - i.e., personal profile
       // or organization.
       const authenticationUsername = settings.configuration?.registry_path
-        ? settings.configuration?.registry_path?.split("/")[0]
-        : "${{ github.actor }}";
+        ? settings.configuration?.registry_path?.split('/')[0]
+        : '${{ github.actor }}';
 
       // if the authenticaiton method is set to pat (personal access token), specify
       // the key for a secret within the secrets of the repository otherwise the
@@ -103,8 +103,8 @@ class GithubActionsPlugin implements AmplicationPlugin {
       const authenticationPassword =
         settings.configuration?.authentication_method ==
         GitHubAuthenticationMethods.PersonalAccessToken
-          ? "${{ secrets.GITHUB_PACKAGES_PAT }}"
-          : "${{ secrets.GITHUB_TOKEN }}";
+          ? '${{ secrets.GITHUB_PACKAGES_PAT }}'
+          : '${{ secrets.GITHUB_TOKEN }}';
 
       staticFiles.replaceModulesPath((path) =>
         path.replace(
@@ -124,7 +124,7 @@ class GithubActionsPlugin implements AmplicationPlugin {
           )
       );
     } else {
-      const defaultStaticFiles: string = "./static/default/";
+      const defaultStaticFiles: string = './static/default/';
 
       staticPath = resolve(__dirname, defaultStaticFiles);
       staticFiles = await context.utils.importStaticModules(

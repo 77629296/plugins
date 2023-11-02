@@ -1,5 +1,5 @@
-import type { AmplicationPlugin, Events } from "@amplication/code-gen-types";
-import { EventNames } from "@amplication/code-gen-types";
+import type { AmplicationPlugin, Events } from '@amplication/code-gen-types';
+import { EventNames } from '@amplication/code-gen-types';
 import {
   afterLoadStaticFiles,
   beforeCreateServerAppModule,
@@ -7,7 +7,7 @@ import {
   beforeCreateServerDockerComposeDev,
   beforeCreateServerDotEnv,
   beforeCreateServerPackageJson,
-} from "@/events";
+} from '@/events';
 
 class ESLintPlugin implements AmplicationPlugin {
   register(): Events {

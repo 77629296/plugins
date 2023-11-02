@@ -1,11 +1,11 @@
-import { Module, DsgContext } from "@amplication/code-gen-types";
-import { join } from "path";
+import { Module, DsgContext } from '@amplication/code-gen-types';
+import { join } from 'path';
 import {
   AUTH_ENTITY_ERROR,
   AUTH_ENTITY_LOG_ERROR,
   templatesPath,
-} from "../constants";
-import { readFile } from "@amplication/code-gen-utils";
+} from '../constants';
+import { readFile } from '@amplication/code-gen-utils';
 import {
   addImports,
   getClassDeclarationById,
@@ -13,11 +13,11 @@ import {
   interpolate,
   removeTSClassDeclares,
   addInjectableDependency,
-} from "../util/ast";
-import { builders, namedTypes } from "ast-types";
-import { print } from "@amplication/code-gen-utils";
+} from '../util/ast';
+import { builders, namedTypes } from 'ast-types';
+import { print } from '@amplication/code-gen-utils';
 
-const jwtStrategyPath = join(templatesPath, "jwt.strategy.template.ts");
+const jwtStrategyPath = join(templatesPath, 'jwt.strategy.template.ts');
 
 export async function createJwtStrategy(
   dsgContext: DsgContext
@@ -25,7 +25,7 @@ export async function createJwtStrategy(
   return await mapJwtStrategyTemplate(
     dsgContext,
     jwtStrategyPath,
-    "jwt.strategy.ts"
+    'jwt.strategy.ts'
   );
 }
 
@@ -73,7 +73,7 @@ async function mapJwtStrategyTemplate(
 
     const classDeclaration = getClassDeclarationById(
       template,
-      builders.identifier("JwtStrategy")
+      builders.identifier('JwtStrategy')
     );
 
     const entityServiceIdentifier = builders.identifier(
@@ -84,7 +84,7 @@ async function mapJwtStrategyTemplate(
       classDeclaration,
       entityServiceIdentifier.name,
       builders.identifier(`${authEntity?.name}Service`),
-      "protected"
+      'protected'
     );
 
     removeTSClassDeclares(template);
@@ -95,6 +95,6 @@ async function mapJwtStrategyTemplate(
     };
   } catch (error) {
     console.error(error);
-    return { code: "", path: "" };
+    return { code: '', path: '' };
   }
 }

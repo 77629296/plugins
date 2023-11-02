@@ -1,14 +1,14 @@
-import { Module, DsgContext } from "@amplication/code-gen-types";
-import { print, readFile } from "@amplication/code-gen-utils";
+import { Module, DsgContext } from '@amplication/code-gen-types';
+import { print, readFile } from '@amplication/code-gen-utils';
 import {
   addImports,
   importNames,
   interpolate,
   removeTSClassDeclares,
   removeTSInterfaceDeclares,
-} from "../util/ast";
-import { builders, namedTypes } from "ast-types";
-import { AUTH_ENTITY_ERROR, AUTH_ENTITY_LOG_ERROR } from "../constants";
+} from '../util/ast';
+import { builders, namedTypes } from 'ast-types';
+import { AUTH_ENTITY_ERROR, AUTH_ENTITY_LOG_ERROR } from '../constants';
 
 export async function mapAuthTemplate(
   context: DsgContext,
@@ -60,6 +60,6 @@ export async function mapAuthTemplate(
     };
   } catch (error) {
     console.log(error);
-    return { code: "", path: "" };
+    return { code: '', path: '' };
   }
 }

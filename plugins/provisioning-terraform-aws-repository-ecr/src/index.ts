@@ -4,18 +4,18 @@ import type {
   DsgContext,
   Events,
   ModuleMap,
-} from "@amplication/code-gen-types";
+} from '@amplication/code-gen-types';
 import {
   nameKey,
   typeKey,
   moduleNameKey,
   configurationForceDeleteKey,
-} from "./constants";
-import { EventNames } from "@amplication/code-gen-types";
-import { resolve, join } from "path";
-import { getPluginSettings, getTerraformDirectory } from "./utils";
-import { kebabCase, snakeCase } from "lodash";
-import { RepositoryType } from "./types";
+} from './constants';
+import { EventNames } from '@amplication/code-gen-types';
+import { resolve, join } from 'path';
+import { getPluginSettings, getTerraformDirectory } from './utils';
+import { kebabCase, snakeCase } from 'lodash';
+import { RepositoryType } from './types';
 
 class TerraformAwsRepositoryEcrPlugin implements AmplicationPlugin {
   register(): Events {
@@ -38,7 +38,7 @@ class TerraformAwsRepositoryEcrPlugin implements AmplicationPlugin {
     const serviceName = kebabCase(context.resourceInfo?.name);
     if (!serviceName) {
       throw new Error(
-        "TerraformAwsRepositoryEcrPlugin: Service name is undefined"
+        'TerraformAwsRepositoryEcrPlugin: Service name is undefined'
       );
     }
 
@@ -63,14 +63,14 @@ class TerraformAwsRepositoryEcrPlugin implements AmplicationPlugin {
       );
     }
 
-    const templateFileName: string = "ecr-template.tf";
-    const fileNamePrefix: string = "ecr-";
-    const fileNameSuffix: string = ".tf";
+    const templateFileName = 'ecr-template.tf';
+    const fileNamePrefix = 'ecr-';
+    const fileNameSuffix = '.tf';
     const name: string = settings.repository_name
       ? settings.repository_name
       : serviceName;
 
-    const staticPath = resolve(__dirname, "./static/");
+    const staticPath = resolve(__dirname, './static/');
     const staticFiles = await context.utils.importStaticModules(
       staticPath,
       terraformDirectory
@@ -82,7 +82,7 @@ class TerraformAwsRepositoryEcrPlugin implements AmplicationPlugin {
 
     staticFiles.replaceModulesCode((_path, code) =>
       code
-        .replaceAll(moduleNameKey, "ecr_" + snakeCase(name))
+        .replaceAll(moduleNameKey, 'ecr_' + snakeCase(name))
         .replaceAll(nameKey, kebabCase(name))
         .replaceAll(typeKey, settings.repository_type)
         .replaceAll(

@@ -1,37 +1,42 @@
-import { CreateAdminUIPackageJsonParams, CreateServerPackageJsonParams, DsgContext } from "@amplication/code-gen-types";
-import { adminUIPackageJsonValues, serverPackageJsonValues } from "../constants";
-import { getPluginSettings } from "../utils";
+import {
+  CreateAdminUIPackageJsonParams,
+  CreateServerPackageJsonParams,
+  DsgContext,
+} from '@amplication/code-gen-types';
+import {
+  adminUIPackageJsonValues,
+  serverPackageJsonValues,
+} from '../constants';
+import { getPluginSettings } from '../utils';
 
-export const beforeCreatePackageJson = (
-  event: "server" | "client",
-) => {
+export const beforeCreatePackageJson = (event: 'server' | 'client') => {
   return async (
-  context: DsgContext,
-  eventParams: CreateAdminUIPackageJsonParams | CreateServerPackageJsonParams,
-  ): Promise<CreateAdminUIPackageJsonParams | CreateServerPackageJsonParams> => {
+    context: DsgContext,
+    eventParams: CreateAdminUIPackageJsonParams | CreateServerPackageJsonParams
+  ): Promise<
+    CreateAdminUIPackageJsonParams | CreateServerPackageJsonParams
+  > => {
     let packageJsonValues;
 
-    const { formatter } = getPluginSettings(
-      context.pluginInstallations,
-    );
+    const { formatter } = getPluginSettings(context.pluginInstallations);
 
     switch (event) {
-      case "server":
+      case 'server':
         packageJsonValues = serverPackageJsonValues;
         break;
-      case "client":
+      case 'client':
         packageJsonValues = adminUIPackageJsonValues;
         break;
     }
 
-    if(formatter === "prettier") {
+    if (formatter === 'prettier') {
       packageJsonValues.devDependencies = {
         ...packageJsonValues.devDependencies,
-        "eslint-config-prettier": "^8.3.0",
+        'eslint-config-prettier': '^8.3.0',
       };
     }
 
-    eventParams.updateProperties.push(packageJsonValues);  
+    eventParams.updateProperties.push(packageJsonValues);
     return eventParams;
   };
 };

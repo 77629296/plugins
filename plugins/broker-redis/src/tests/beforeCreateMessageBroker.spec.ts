@@ -1,12 +1,12 @@
 import {
   CreateMessageBrokerParams,
   DsgContext,
-} from "@amplication/code-gen-types";
-import { mock } from "jest-mock-extended";
-import { name } from "../../package.json";
-import RedisBrokerPlugin from "../index";
+} from '@amplication/code-gen-types';
+import { mock } from 'jest-mock-extended';
+import { name } from '../../package.json';
+import RedisBrokerPlugin from '../index';
 
-describe("Testing beforeCreateMessageBroker hook", () => {
+describe('Testing beforeCreateMessageBroker hook', () => {
   let plugin: RedisBrokerPlugin;
   let context: DsgContext;
   let params: CreateMessageBrokerParams;
@@ -16,14 +16,14 @@ describe("Testing beforeCreateMessageBroker hook", () => {
     context = mock<DsgContext>({
       pluginInstallations: [{ npm: name }],
       serverDirectories: {
-        srcDirectory: "/",
+        srcDirectory: '/',
       },
     });
     params = mock<CreateMessageBrokerParams>();
   });
-  it("should set the message broker directory to redis", () => {
+  it('should set the message broker directory to redis', () => {
     plugin.beforeCreateMessageBroker(context, params);
     const brokerDir = context.serverDirectories.messageBrokerDirectory;
-    expect(brokerDir).toStrictEqual("/redis");
+    expect(brokerDir).toStrictEqual('/redis');
   });
 });

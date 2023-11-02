@@ -4,7 +4,7 @@ import type {
   DsgContext,
   Events,
   ModuleMap,
-} from "@amplication/code-gen-types";
+} from '@amplication/code-gen-types';
 import {
   regionIdentifierKey,
   accountIdentifierKey,
@@ -20,11 +20,11 @@ import {
   runtimeCpuArchitectureKey,
   runtimeOsFamilyKey,
   dockerFilePathKey,
-} from "./constants";
-import { getPluginSettings } from "./utils";
-import { EventNames } from "@amplication/code-gen-types";
-import { resolve } from "path";
-import { kebabCase } from "lodash";
+} from './constants';
+import { getPluginSettings } from './utils';
+import { EventNames } from '@amplication/code-gen-types';
+import { resolve } from 'path';
+import { kebabCase } from 'lodash';
 
 class GithubActionsAwsEcsPlugin implements AmplicationPlugin {
   register(): Events {
@@ -41,7 +41,7 @@ class GithubActionsAwsEcsPlugin implements AmplicationPlugin {
     modules: ModuleMap
   ): Promise<ModuleMap> {
     context.logger.info(
-      "Generating Github Actions deploy to Amazon ECS workflow ..."
+      'Generating Github Actions deploy to Amazon ECS workflow ...'
     );
 
     // determine the name of the service which will be used as the name for the workflow
@@ -49,35 +49,35 @@ class GithubActionsAwsEcsPlugin implements AmplicationPlugin {
     const serviceName = kebabCase(context.resourceInfo?.name);
 
     if (!serviceName) {
-      throw new Error("Service name is undefined");
+      throw new Error('Service name is undefined');
     }
 
     // template file names
-    const templateWorkflowFileName: string = "workflow.yaml";
-    const templateTaskDefinitionFileName: string = "task-definition.json";
+    const templateWorkflowFileName = 'workflow.yaml';
+    const templateTaskDefinitionFileName = 'task-definition.json';
 
     // output file name prefix & suffixes
-    const fileNamePrefix: string = "cd-";
-    const workflowFileNameSuffix: string = "-aws-ecs.yaml";
-    const taskDefinitionFileNameSuffix: string = "-aws-ecs.json";
+    const fileNamePrefix = 'cd-';
+    const workflowFileNameSuffix = '-aws-ecs.yaml';
+    const taskDefinitionFileNameSuffix = '-aws-ecs.json';
 
     // ouput directory base & file specific suffix
-    const outputDirectoryBase: string = ".github/workflows";
+    const outputDirectoryBase = '.github/workflows';
     const outputSuffixWorkflow: string =
-      "/" + fileNamePrefix + serviceName + workflowFileNameSuffix;
+      '/' + fileNamePrefix + serviceName + workflowFileNameSuffix;
     const outputSuffixTaskDefinition: string =
-      "/configuration/" +
+      '/configuration/' +
       fileNamePrefix +
       serviceName +
       taskDefinitionFileNameSuffix;
 
     // getPluginSettings: fetch user settings + merge with default settings
     const settings = getPluginSettings(context.pluginInstallations);
-    const staticPath = resolve(__dirname, "./static");
+    const staticPath = resolve(__dirname, './static');
 
     const staticFiles = await context.utils.importStaticModules(
       staticPath,
-      "./" + outputDirectoryBase
+      './' + outputDirectoryBase
     );
 
     staticFiles.replaceModulesPath((path) =>
@@ -111,7 +111,7 @@ class GithubActionsAwsEcsPlugin implements AmplicationPlugin {
     );
 
     context.logger.info(
-      "Generated Github Actions deploy to Amazon ECS workflow..."
+      'Generated Github Actions deploy to Amazon ECS workflow...'
     );
 
     await modules.merge(staticFiles);

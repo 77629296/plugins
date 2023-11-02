@@ -94,14 +94,14 @@ export class ModelController extends ModelControllerBase {
 Customization of the Redis controller to perform desired tasks:
 
 ```js
-@Controller("redis-controller")
+@Controller('redis-controller')
 export class RedisController {
-  @EventPattern("firstTopic")
+  @EventPattern('firstTopic')
   async onFirstTopic(
     @Payload()
     message: RedisMessage
   ): Promise<void> {
-    console.log("Received message:", message);
+    console.log('Received message:', message);
   }
 }
 ```

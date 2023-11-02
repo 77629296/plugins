@@ -1,18 +1,18 @@
-import { forwardRef, Module } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { JwtModule } from "@nestjs/jwt";
-import { PassportModule } from "@nestjs/passport";
-import { JWT_EXPIRATION, JWT_SECRET_KEY } from "../constants";
-import { SecretsManagerModule } from "../providers/secrets/secretsManager.module";
-import { SecretsManagerService } from "../providers/secrets/secretsManager.service";
+import { forwardRef, Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
+import { JWT_EXPIRATION, JWT_SECRET_KEY } from '../constants';
+import { SecretsManagerModule } from '../providers/secrets/secretsManager.module';
+import { SecretsManagerService } from '../providers/secrets/secretsManager.service';
 // @ts-ignore
 // eslint-disable-next-line
-import { AuthController } from "./auth.controller";
-import { AuthResolver } from "./auth.resolver";
-import { AuthService } from "./auth.service";
-import { BasicStrategy } from "./basic/basic.strategy";
-import { PasswordService } from "./password.service";
-import { TokenService } from "./token.service";
+import { AuthController } from './auth.controller';
+import { AuthResolver } from './auth.resolver';
+import { AuthService } from './auth.service';
+import { BasicStrategy } from './basic/basic.strategy';
+import { PasswordService } from './password.service';
+import { TokenService } from './token.service';
 
 declare class ENTITY_MODULE {}
 
@@ -34,7 +34,7 @@ declare class ENTITY_MODULE {}
           throw new Error("Didn't get a valid jwt secret");
         }
         if (!expiresIn) {
-          throw new Error("Jwt expire in value is not valid");
+          throw new Error('Jwt expire in value is not valid');
         }
         return {
           secret: secret,

@@ -1,22 +1,22 @@
-import { types, Module, DsgContext, Entity } from "@amplication/code-gen-types";
-import { print, readFile } from "@amplication/code-gen-utils";
+import { types, Module, DsgContext, Entity } from '@amplication/code-gen-types';
+import { print, readFile } from '@amplication/code-gen-utils';
 import {
   addImports,
   importNames,
   interpolate,
   removeTSClassDeclares,
-} from "../util/ast";
-import { idTypeClassOptions, idTypeTSOptions } from "../util/idTypeMapper";
-import { builders, namedTypes } from "ast-types";
-import { getUserIdType } from "../util/get-user-id-type";
-import { join } from "path";
+} from '../util/ast';
+import { idTypeClassOptions, idTypeTSOptions } from '../util/idTypeMapper';
+import { builders, namedTypes } from 'ast-types';
+import { getUserIdType } from '../util/get-user-id-type';
+import { join } from 'path';
 import {
   AUTH_ENTITY_ERROR,
   AUTH_ENTITY_LOG_ERROR,
   templatesPath,
-} from "../constants";
+} from '../constants';
 
-const userInfoPath = join(templatesPath, "user-info.template.ts");
+const userInfoPath = join(templatesPath, 'user-info.template.ts');
 
 export async function createUserInfo(dsgContext: DsgContext): Promise<Module> {
   const { serverDirectories, resourceInfo, entities } = dsgContext;
@@ -56,7 +56,7 @@ export async function createUserInfo(dsgContext: DsgContext): Promise<Module> {
 }
 
 function prepareTemplateMapping(
-  idType: types.Id["idType"],
+  idType: types.Id['idType'],
   authEntity: Entity
 ) {
   return {

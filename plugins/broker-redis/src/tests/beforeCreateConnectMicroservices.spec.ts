@@ -1,13 +1,13 @@
 import {
   CreateConnectMicroservicesParams,
   DsgContext,
-} from "@amplication/code-gen-types";
-import { mock } from "jest-mock-extended";
-import { name } from "../../package.json";
-import * as utils from "../utils";
-import RedisBrokerPlugin from "../index";
+} from '@amplication/code-gen-types';
+import { mock } from 'jest-mock-extended';
+import { name } from '../../package.json';
+import * as utils from '../utils';
+import RedisBrokerPlugin from '../index';
 
-describe("Testing beforeCreateConnectMicroservices hook", () => {
+describe('Testing beforeCreateConnectMicroservices hook', () => {
   let plugin: RedisBrokerPlugin;
   let context: DsgContext;
   let params: CreateConnectMicroservicesParams;
@@ -29,7 +29,7 @@ describe("Testing beforeCreateConnectMicroservices hook", () => {
             `),
     };
   });
-  it("should add the necessary code to connect the redis microservice", () => {
+  it('should add the necessary code to connect the redis microservice', () => {
     const { template } = plugin.beforeCreateConnectMicroservices(
       context,
       params

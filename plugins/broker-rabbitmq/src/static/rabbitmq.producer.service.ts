@@ -1,11 +1,11 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { ClientRMQ } from "@nestjs/microservices";
-import { RabbitMQMessage } from "./RabbitMQMessage";
-import { AllMessageBrokerTopics } from "./topics";
+import { Inject, Injectable } from '@nestjs/common';
+import { ClientRMQ } from '@nestjs/microservices';
+import { RabbitMQMessage } from './RabbitMQMessage';
+import { AllMessageBrokerTopics } from './topics';
 
 @Injectable()
 export class RabbitMQProducerService {
-  constructor(@Inject("RABBITMQ_CLIENT") private rabbitMQClient: ClientRMQ) { }
+  constructor(@Inject('RABBITMQ_CLIENT') private rabbitMQClient: ClientRMQ) {}
 
   async emitMessage(
     topic: AllMessageBrokerTopics,

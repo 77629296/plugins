@@ -1,2 +1,2 @@
-export * from "./getPluginSettings";
-export * from "./convertToVarDict";
+export * from './getPluginSettings';
+export * from './convertToVarDict';

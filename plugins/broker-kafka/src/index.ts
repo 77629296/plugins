@@ -15,21 +15,21 @@ import {
   Events,
   Module,
   ModuleMap,
-} from "@amplication/code-gen-types";
-import { readFile, print } from "@amplication/code-gen-utils";
-import { kebabCase } from "lodash";
-import { join, resolve } from "path";
-import { staticDirectory, templatesPath } from "./constants";
-import { builders, namedTypes } from "ast-types";
+} from '@amplication/code-gen-types';
+import { readFile, print } from '@amplication/code-gen-utils';
+import { kebabCase } from 'lodash';
+import { join, resolve } from 'path';
+import { staticDirectory, templatesPath } from './constants';
+import { builders, namedTypes } from 'ast-types';
 import {
   addImports,
   getClassDeclarationById,
   getFunctionDeclarationById,
   importNames,
   interpolate,
-} from "./util/ast";
-import { pascalCase } from "pascal-case";
-import { EnumResourceType } from "@amplication/code-gen-types/src/models";
+} from './util/ast';
+import { pascalCase } from 'pascal-case';
+import { EnumResourceType } from '@amplication/code-gen-types/src/models';
 
 class KafkaPlugin implements AmplicationPlugin {
   static moduleFile: Module | undefined;
@@ -78,9 +78,9 @@ class KafkaPlugin implements AmplicationPlugin {
     eventParams: CreateMessageBrokerClientOptionsFactoryParams
   ): Promise<ModuleMap> {
     const { serverDirectories } = context;
-    const filePath = resolve(staticDirectory, "generateKafkaClientOptions.ts");
+    const filePath = resolve(staticDirectory, 'generateKafkaClientOptions.ts');
     const file = await readFile(filePath);
-    const generateFileName = "generateKafkaClientOptions.ts";
+    const generateFileName = 'generateKafkaClientOptions.ts';
 
     const path = join(
       serverDirectories.messageBrokerDirectory,
@@ -97,7 +97,7 @@ class KafkaPlugin implements AmplicationPlugin {
   ): CreateMessageBrokerParams {
     dsgContext.serverDirectories.messageBrokerDirectory = join(
       dsgContext.serverDirectories.srcDirectory,
-      "kafka"
+      'kafka'
     );
     return eventParams;
   }
@@ -106,12 +106,12 @@ class KafkaPlugin implements AmplicationPlugin {
     context: DsgContext,
     eventParams: CreateMessageBrokerNestJSModuleParams
   ): Promise<ModuleMap> {
-    const filePath = resolve(staticDirectory, "kafka.module.ts");
+    const filePath = resolve(staticDirectory, 'kafka.module.ts');
 
     const { serverDirectories } = context;
     const { messageBrokerDirectory } = serverDirectories;
     const file = await readFile(filePath);
-    const generateFileName = "kafka.module.ts";
+    const generateFileName = 'kafka.module.ts';
 
     KafkaPlugin.moduleFile = {
       code: print(file).code,
@@ -130,8 +130,8 @@ class KafkaPlugin implements AmplicationPlugin {
     const resourceName = context.resourceInfo?.name;
 
     const vars = {
-      KAFKA_BROKERS: "localhost:9092",
-      KAFKA_ENABLE_SSL: "false",
+      KAFKA_BROKERS: 'localhost:9092',
+      KAFKA_ENABLE_SSL: 'false',
       KAFKA_CLIENT_ID: kebabCase(resourceName),
       KAFKA_GROUP_ID: kebabCase(resourceName),
     };
@@ -148,8 +148,8 @@ class KafkaPlugin implements AmplicationPlugin {
   ): CreateServerPackageJsonParams {
     const myValues = {
       dependencies: {
-        "@nestjs/microservices": "10.2.7",
-        kafkajs: "^2.2.4",
+        '@nestjs/microservices': '10.2.7',
+        kafkajs: '^2.2.4',
       },
     };
 
@@ -176,17 +176,17 @@ class KafkaPlugin implements AmplicationPlugin {
       )?.resourceInfo?.name ?? null;
 
     if (!messageBrokerName) {
-      throw new Error("Message broker name not found");
+      throw new Error('Message broker name not found');
     }
 
     const templatePath = join(
       templatesPath,
-      "kafka.producer.service.template.ts"
+      'kafka.producer.service.template.ts'
     );
     const template = await readFile(templatePath);
     const templateMapping = {
       BROKER_TOPICS: builders.identifier(
-        pascalCase(messageBrokerName) + "Topics"
+        pascalCase(messageBrokerName) + 'Topics'
       ),
     };
 
@@ -227,16 +227,16 @@ class KafkaPlugin implements AmplicationPlugin {
     dsgContext: DsgContext,
     eventParams: CreateServerDockerComposeDevParams
   ): CreateServerDockerComposeDevParams {
-    const KAFKA_NAME = "kafka";
-    const ZOOKEEPER_NAME = "zookeeper";
-    const ZOOKEEPER_PORT = "2181";
-    const KAFKA_PORT = "9092";
-    const KAFKA_UI = "kafka-ui";
+    const KAFKA_NAME = 'kafka';
+    const ZOOKEEPER_NAME = 'zookeeper';
+    const ZOOKEEPER_PORT = '2181';
+    const KAFKA_PORT = '9092';
+    const KAFKA_UI = 'kafka-ui';
 
     const newParams = {
       services: {
         [ZOOKEEPER_NAME]: {
-          image: "confluentinc/cp-zookeeper:5.2.4",
+          image: 'confluentinc/cp-zookeeper:5.2.4',
           environment: {
             ZOOKEEPER_CLIENT_PORT: 2181,
             ZOOKEEPER_TICK_TIME: 2000,
@@ -244,9 +244,9 @@ class KafkaPlugin implements AmplicationPlugin {
           ports: [`${ZOOKEEPER_PORT}:${ZOOKEEPER_PORT}`],
         },
         [KAFKA_NAME]: {
-          image: "confluentinc/cp-kafka:7.3.1",
+          image: 'confluentinc/cp-kafka:7.3.1',
           depends_on: [ZOOKEEPER_NAME],
-          ports: ["9092:9092", "9997:9997"],
+          ports: ['9092:9092', '9997:9997'],
           environment: {
             KAFKA_BROKER_ID: 1,
             KAFKA_ZOOKEEPER_CONNECT: `${ZOOKEEPER_NAME}:${ZOOKEEPER_PORT}`,
@@ -260,13 +260,13 @@ class KafkaPlugin implements AmplicationPlugin {
         },
         [KAFKA_UI]: {
           container_name: KAFKA_UI,
-          image: "provectuslabs/kafka-ui:latest",
-          ports: ["8080:8080"],
+          image: 'provectuslabs/kafka-ui:latest',
+          ports: ['8080:8080'],
           depends_on: [ZOOKEEPER_NAME, KAFKA_NAME],
           environment: {
-            KAFKA_CLUSTERS_0_NAME: "local",
-            KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: "kafka:29092",
-            KAFKA_CLUSTERS_0_ZOOKEEPER: "zookeeper:2181",
+            KAFKA_CLUSTERS_0_NAME: 'local',
+            KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: 'kafka:29092',
+            KAFKA_CLUSTERS_0_ZOOKEEPER: 'zookeeper:2181',
             KAFKA_CLUSTERS_0_JMXPORT: 9997,
           },
         },
@@ -282,16 +282,16 @@ class KafkaPlugin implements AmplicationPlugin {
   ) {
     const file = KafkaPlugin.moduleFile;
     if (!file) {
-      throw new Error("Kafka module file not found");
+      throw new Error('Kafka module file not found');
     }
-    const kafkaModuleId = builders.identifier("KafkaModule");
+    const kafkaModuleId = builders.identifier('KafkaModule');
 
     const importArray = builders.arrayExpression([
       kafkaModuleId,
-      ...eventParams.templateMapping["MODULES"].elements,
+      ...eventParams.templateMapping['MODULES'].elements,
     ]);
 
-    eventParams.templateMapping["MODULES"] = importArray;
+    eventParams.templateMapping['MODULES'] = importArray;
 
     eventParams.modulesFiles.set(file);
     return eventParams;
@@ -302,7 +302,7 @@ class KafkaPlugin implements AmplicationPlugin {
     eventParams: CreateServerAuthParams,
     modules: ModuleMap
   ): Promise<ModuleMap> {
-    const templatePath = join(templatesPath, "controller.template.ts");
+    const templatePath = join(templatesPath, 'controller.template.ts');
     const template = await readFile(templatePath);
     const controllerId = builders.identifier(`KafkaController`);
     const templateMapping = {
@@ -321,20 +321,20 @@ class KafkaPlugin implements AmplicationPlugin {
         if (topic.type !== EnumMessagePatternConnectionOptions.Receive) return;
 
         const eventPatternDecorator = builders.decorator(
-          builders.callExpression(builders.identifier("EventPattern"), [
+          builders.callExpression(builders.identifier('EventPattern'), [
             builders.stringLiteral(topic.topicName),
           ])
         );
 
         const payloadDecorator = builders.decorator(
-          builders.callExpression(builders.identifier("Payload"), [])
+          builders.callExpression(builders.identifier('Payload'), [])
         );
 
         const kafkaValue = builders.identifier.from({
-          name: "value",
+          name: 'value',
           typeAnnotation: builders.tsTypeAnnotation(
             builders.tsTypeReference(
-              builders.identifier("string | Record<string, any> | null")
+              builders.identifier('string | Record<string, any> | null')
             )
           ),
         });
@@ -343,12 +343,12 @@ class KafkaPlugin implements AmplicationPlugin {
         kafkaValue.decorators = [payloadDecorator];
 
         const kafkaContextDecorator = builders.decorator(
-          builders.callExpression(builders.identifier("Ctx"), [])
+          builders.callExpression(builders.identifier('Ctx'), [])
         );
         const kafkaContext = builders.identifier.from({
-          name: "context",
+          name: 'context',
           typeAnnotation: builders.tsTypeAnnotation(
-            builders.tsTypeReference(builders.identifier("KafkaContext"))
+            builders.tsTypeReference(builders.identifier('KafkaContext'))
           ),
         });
         //@ts-ignore
@@ -356,13 +356,13 @@ class KafkaPlugin implements AmplicationPlugin {
 
         const currentClassMethod = builders.classMethod.from({
           body: builders.blockStatement([
-            builders.variableDeclaration("const", [
+            builders.variableDeclaration('const', [
               builders.variableDeclarator(
-                builders.identifier("message"),
+                builders.identifier('message'),
                 builders.callExpression(
                   builders.memberExpression(
-                    builders.identifier("context"),
-                    builders.identifier("getMessage")
+                    builders.identifier('context'),
+                    builders.identifier('getMessage')
                   ),
                   []
                 )
@@ -374,7 +374,7 @@ class KafkaPlugin implements AmplicationPlugin {
           params: [kafkaValue, kafkaContext],
           returnType: builders.tsTypeAnnotation(
             builders.tsTypeReference(
-              builders.identifier("Promise"),
+              builders.identifier('Promise'),
               builders.tsTypeParameterInstantiation([builders.tsVoidKeyword()])
             )
           ),
@@ -386,8 +386,8 @@ class KafkaPlugin implements AmplicationPlugin {
     });
     const filePath = join(
       context.serverDirectories.srcDirectory,
-      "kafka",
-      "kafka.controller.ts"
+      'kafka',
+      'kafka.controller.ts'
     );
 
     const controllerFile = { code: print(template).code, path: filePath };
@@ -403,13 +403,13 @@ class KafkaPlugin implements AmplicationPlugin {
     const { template } = eventParams;
 
     const generateKafkaClientOptionsImport = importNames(
-      [builders.identifier("generateKafkaClientOptions")],
-      "./kafka/generateKafkaClientOptions"
+      [builders.identifier('generateKafkaClientOptions')],
+      './kafka/generateKafkaClientOptions'
     );
 
     const MicroserviceOptionsImport = importNames(
-      [builders.identifier("MicroserviceOptions")],
-      "@nestjs/microservices"
+      [builders.identifier('MicroserviceOptions')],
+      '@nestjs/microservices'
     );
 
     addImports(
@@ -420,18 +420,18 @@ class KafkaPlugin implements AmplicationPlugin {
     );
 
     const typeArguments = builders.tsTypeParameterInstantiation([
-      builders.tsTypeReference(builders.identifier("MicroserviceOptions")),
+      builders.tsTypeReference(builders.identifier('MicroserviceOptions')),
     ]);
 
     const appExpression = builders.callExpression(
       builders.memberExpression(
-        builders.identifier("app"),
-        builders.identifier("connectMicroservice")
+        builders.identifier('app'),
+        builders.identifier('connectMicroservice')
       ),
       [
         builders.callExpression(
-          builders.identifier("generateKafkaClientOptions"),
-          [builders.identifier("configService")]
+          builders.identifier('generateKafkaClientOptions'),
+          [builders.identifier('configService')]
         ),
       ]
     );
@@ -443,7 +443,7 @@ class KafkaPlugin implements AmplicationPlugin {
 
     const functionDeclaration = getFunctionDeclarationById(
       template,
-      builders.identifier("connectMicroservices")
+      builders.identifier('connectMicroservices')
     );
 
     functionDeclaration.body.body.push(kafkaServiceExpression);

@@ -1,4 +1,4 @@
-import { resolve } from "path";
+import { resolve } from 'path';
 import {
   DsgContext,
   AmplicationPlugin,
@@ -10,18 +10,18 @@ import {
   CreateAdminUIPackageJsonParams,
   ModuleMap,
   CreateAdminUIParams,
-} from "@amplication/code-gen-types";
-import { getPluginSettings } from "./utils";
-import { format } from "prettier";
+} from '@amplication/code-gen-types';
+import { getPluginSettings } from './utils';
+import { format } from 'prettier';
 
 class PrettierPlugin implements AmplicationPlugin {
   register(): Events {
     return {
       [EventNames.CreateServer]: {
-        after: this.afterCreateApp("server").bind(this),
+        after: this.afterCreateApp('server').bind(this),
       },
       [EventNames.CreateAdminUI]: {
-        after: this.afterCreateApp("client").bind(this),
+        after: this.afterCreateApp('client').bind(this),
       },
       [EventNames.CreateServerPackageJson]: {
         before: this.beforeCreatePackageJson,
@@ -32,7 +32,7 @@ class PrettierPlugin implements AmplicationPlugin {
     };
   }
 
-  afterCreateApp = (event: "server" | "client") => {
+  afterCreateApp = (event: 'server' | 'client') => {
     return async (
       context: DsgContext,
       eventParams: CreateAdminUIParams | CreateServerParams,
@@ -40,15 +40,15 @@ class PrettierPlugin implements AmplicationPlugin {
     ): Promise<ModuleMap> => {
       const { rules } = getPluginSettings(context.pluginInstallations);
       let baseDirectory;
-      const staticFilesPath = resolve(__dirname, "static");
+      const staticFilesPath = resolve(__dirname, 'static');
       const rulesPlaceholder = '"${{ RULES }}"';
 
       switch (event) {
-        case "server":
+        case 'server':
           baseDirectory = context.serverDirectories.baseDirectory;
           break;
 
-        case "client":
+        case 'client':
           baseDirectory = context.clientDirectories.baseDirectory;
           break;
       }
@@ -60,7 +60,7 @@ class PrettierPlugin implements AmplicationPlugin {
       staticFiles.replaceModulesCode((_path, code) =>
         code.replaceAll(
           rulesPlaceholder,
-          format(JSON.stringify(rules, null, 2), { parser: "json" })
+          format(JSON.stringify(rules, null, 2), { parser: 'json' })
         )
       );
 
@@ -75,10 +75,10 @@ class PrettierPlugin implements AmplicationPlugin {
   ): CreateServerPackageJsonParams | CreateAdminUIPackageJsonParams {
     const packageJsonValues = {
       devDependencies: {
-        prettier: "^2.8.0",
+        prettier: '^2.8.0',
       },
       scripts: {
-        format: "prettier --write .",
+        format: 'prettier --write .',
       },
     };
 

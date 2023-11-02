@@ -8,28 +8,38 @@ import {
   EntityField,
   Events,
   ModuleMap,
-} from "@amplication/code-gen-types";
-import { EnumAuthProviderType } from "@amplication/code-gen-types/src/models";
-import { resolve } from "path";
+} from '@amplication/code-gen-types';
+import { EnumAuthProviderType } from '@amplication/code-gen-types/src/models';
+import { resolve } from 'path';
 import {
   createAuthModule,
   createJwtStrategy,
   createJwtStrategyBase,
   createJwtStrategySpec,
-} from "./core";
-import { addIdentifierToConstructorSuperCall, addImports, addInjectableDependency, awaitExpression, getClassDeclarationById, importNames, interpolate, logicalExpression, memberExpression } from "./util/ast";
-import { builders, namedTypes } from "ast-types";
-import { relativeImportPath } from "./util/module";
-import { isPasswordField } from "./util/field";
+} from './core';
+import {
+  addIdentifierToConstructorSuperCall,
+  addImports,
+  addInjectableDependency,
+  awaitExpression,
+  getClassDeclarationById,
+  importNames,
+  interpolate,
+  logicalExpression,
+  memberExpression,
+} from './util/ast';
+import { builders, namedTypes } from 'ast-types';
+import { relativeImportPath } from './util/module';
+import { isPasswordField } from './util/field';
 
-const ARGS_ID = builders.identifier("args");
-const PASSWORD_FIELD_ASYNC_METHODS = new Set(["create", "update"]);
-const DATA_ID = builders.identifier("data");
-const PASSWORD_SERVICE_ID = builders.identifier("PasswordService");
-const PASSWORD_SERVICE_MEMBER_ID = builders.identifier("passwordService");
+const ARGS_ID = builders.identifier('args');
+const PASSWORD_FIELD_ASYNC_METHODS = new Set(['create', 'update']);
+const DATA_ID = builders.identifier('data');
+const PASSWORD_SERVICE_ID = builders.identifier('PasswordService');
+const PASSWORD_SERVICE_MEMBER_ID = builders.identifier('passwordService');
 const HASH_MEMBER_EXPRESSION = memberExpression`this.${PASSWORD_SERVICE_MEMBER_ID}.hash`;
 const TRANSFORM_STRING_FIELD_UPDATE_INPUT_ID = builders.identifier(
-  "transformStringFieldUpdateInput"
+  'transformStringFieldUpdateInput'
 );
 
 class JwtAuthPlugin implements AmplicationPlugin {
@@ -75,7 +85,7 @@ class JwtAuthPlugin implements AmplicationPlugin {
     eventParams: CreateServerAuthParams,
     modules: ModuleMap
   ): Promise<ModuleMap> {
-    const staticPath = resolve(__dirname, "./static");
+    const staticPath = resolve(__dirname, './static');
 
     const staticsFiles = await context.utils.importStaticModules(
       staticPath,
@@ -124,7 +134,7 @@ class JwtAuthPlugin implements AmplicationPlugin {
         classDeclaration,
         PASSWORD_SERVICE_MEMBER_ID.name,
         PASSWORD_SERVICE_ID,
-        "protected"
+        'protected'
       );
 
       addIdentifierToConstructorSuperCall(template, PASSWORD_SERVICE_MEMBER_ID);
@@ -163,7 +173,7 @@ class JwtAuthPlugin implements AmplicationPlugin {
 
     if (!passwordFields?.length) return eventParams;
 
-    templateMapping["CREATE_ARGS_MAPPING"] =
+    templateMapping['CREATE_ARGS_MAPPING'] =
       JwtAuthPlugin.createMutationDataMapping(
         passwordFields.map((field) => {
           const fieldId = builders.identifier(field.name);
@@ -174,7 +184,7 @@ class JwtAuthPlugin implements AmplicationPlugin {
         })
       );
 
-    templateMapping["UPDATE_ARGS_MAPPING"] =
+    templateMapping['UPDATE_ARGS_MAPPING'] =
       JwtAuthPlugin.createMutationDataMapping(
         passwordFields.map((field) => {
           const fieldId = builders.identifier(field.name);
@@ -198,7 +208,7 @@ class JwtAuthPlugin implements AmplicationPlugin {
       classDeclaration,
       PASSWORD_SERVICE_MEMBER_ID.name,
       PASSWORD_SERVICE_ID,
-      "protected"
+      'protected'
     );
 
     for (const member of classDeclaration.body.body) {

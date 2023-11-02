@@ -4,7 +4,7 @@ import type {
   DsgContext,
   Events,
   ModuleMap,
-} from "@amplication/code-gen-types";
+} from '@amplication/code-gen-types';
 import {
   clusterHyphenNameKey,
   clusterUnderscoreNameKey,
@@ -17,11 +17,11 @@ import {
   serviceContainerPort,
   serviceHyphenNameKey,
   serviceUnderscoreNameKey,
-} from "./constants";
-import { EventNames } from "@amplication/code-gen-types";
-import { resolve } from "path";
-import { getPluginSettings, getTerraformDirectory } from "./utils";
-import { kebabCase, snakeCase } from "lodash";
+} from './constants';
+import { EventNames } from '@amplication/code-gen-types';
+import { resolve } from 'path';
+import { getPluginSettings, getTerraformDirectory } from './utils';
+import { kebabCase, snakeCase } from 'lodash';
 
 class TerraformAwsDeploymentEcsPlugin implements AmplicationPlugin {
   register(): Events {
@@ -44,7 +44,7 @@ class TerraformAwsDeploymentEcsPlugin implements AmplicationPlugin {
     const serviceName = kebabCase(context.resourceInfo?.name);
     if (!serviceName) {
       throw new Error(
-        "TerraformAwsRepositoryEcrPlugin: Service name is undefined"
+        'TerraformAwsRepositoryEcrPlugin: Service name is undefined'
       );
     }
 
@@ -60,9 +60,9 @@ class TerraformAwsDeploymentEcsPlugin implements AmplicationPlugin {
     // fetch the plugin specific settings and merge them with the defaults
     const settings = getPluginSettings(context.pluginInstallations);
 
-    const templateFileName: string = "ecs-template.tf";
-    const fileNamePrefix: string = "ecs-";
-    const fileNameSuffix: string = ".tf";
+    const templateFileName: string = 'ecs-template.tf';
+    const fileNamePrefix: string = 'ecs-';
+    const fileNameSuffix: string = '.tf';
     const ecsServiceName: string = settings.service.name
       ? settings.service.name
       : serviceName;
@@ -70,7 +70,7 @@ class TerraformAwsDeploymentEcsPlugin implements AmplicationPlugin {
       ? settings.cluster.name
       : serviceName;
 
-    const staticPath = resolve(__dirname, "./static");
+    const staticPath = resolve(__dirname, './static');
     const staticFiles = await context.utils.importStaticModules(
       staticPath,
       terraformDirectory
@@ -117,14 +117,14 @@ class TerraformAwsDeploymentEcsPlugin implements AmplicationPlugin {
         .replaceAll(serviceUnderscoreNameKey, underscoreServiceName)
         .replaceAll(
           moduleNameEcsClusterKey,
-          "ecs_cluster_" + underscoreClusterName
+          'ecs_cluster_' + underscoreClusterName
         )
         .replaceAll(
           moduleNameEcsServiceKey,
-          "ecs_service_" + underscoreServiceName
+          'ecs_service_' + underscoreServiceName
         )
-        .replaceAll(moduleNameEcsAlbKey, "ecs_alb_" + underscoreServiceName)
-        .replaceAll(moduleNameEcsSgKey, "ecs_alb_sg_" + underscoreServiceName)
+        .replaceAll(moduleNameEcsAlbKey, 'ecs_alb_' + underscoreServiceName)
+        .replaceAll(moduleNameEcsSgKey, 'ecs_alb_sg_' + underscoreServiceName)
         .replaceAll(clusterCapacityProviderKey, capacityProvider)
         .replaceAll(
           serviceContainerImage,

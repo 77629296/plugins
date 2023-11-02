@@ -1,21 +1,21 @@
-import { Module, DsgContext } from "@amplication/code-gen-types";
-import { join } from "path";
+import { Module, DsgContext } from '@amplication/code-gen-types';
+import { join } from 'path';
 import {
   AUTH_ENTITY_ERROR,
   AUTH_ENTITY_LOG_ERROR,
   templatesPath,
-} from "../constants";
-import { readFile } from "@amplication/code-gen-utils";
+} from '../constants';
+import { readFile } from '@amplication/code-gen-utils';
 import {
   addImports,
   importNames,
   interpolate,
   removeTSClassDeclares,
-} from "../util/ast";
-import { builders, namedTypes } from "ast-types";
-import { print } from "@amplication/code-gen-utils";
+} from '../util/ast';
+import { builders, namedTypes } from 'ast-types';
+import { print } from '@amplication/code-gen-utils';
 
-const authModulePath = join(templatesPath, "auth.module.template.ts");
+const authModulePath = join(templatesPath, 'auth.module.template.ts');
 
 export async function createAuthModule(
   dsgContext: DsgContext
@@ -23,7 +23,7 @@ export async function createAuthModule(
   return await mapAuthModuleTemplate(
     dsgContext,
     authModulePath,
-    "auth.module.ts"
+    'auth.module.ts'
   );
 }
 
@@ -76,6 +76,6 @@ async function mapAuthModuleTemplate(
     };
   } catch (error) {
     console.error(error);
-    return { code: "", path: "" };
+    return { code: '', path: '' };
   }
 }

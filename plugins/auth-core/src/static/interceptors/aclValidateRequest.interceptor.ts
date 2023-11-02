@@ -3,12 +3,12 @@ import {
   ExecutionContext,
   Injectable,
   NestInterceptor,
-} from "@nestjs/common";
-import { Observable } from "rxjs";
-import { InjectRolesBuilder, RolesBuilder } from "nest-access-control";
-import { Reflector } from "@nestjs/core";
-import * as abacUtil from "../auth/abac.util";
-import { ForbiddenException } from "../errors";
+} from '@nestjs/common';
+import { Observable } from 'rxjs';
+import { InjectRolesBuilder, RolesBuilder } from 'nest-access-control';
+import { Reflector } from '@nestjs/core';
+import * as abacUtil from '../auth/abac.util';
+import { ForbiddenException } from '../errors';
 
 @Injectable()
 export class AclValidateRequestInterceptor implements NestInterceptor {
@@ -19,14 +19,14 @@ export class AclValidateRequestInterceptor implements NestInterceptor {
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const [permissionsRoles]: any = this.reflector.getAllAndMerge<string[]>(
-      "roles",
+      'roles',
       [context.getHandler(), context.getClass()]
     );
 
     const type = context.getType();
 
     const inputDataToValidate =
-      type === "http"
+      type === 'http'
         ? context.switchToHttp().getRequest().body
         : context.getArgByIndex(1).data;
 
@@ -44,7 +44,7 @@ export class AclValidateRequestInterceptor implements NestInterceptor {
 
     if (invalidAttributes.length) {
       throw new ForbiddenException(
-        "Insufficient privileges to complete the operation"
+        'Insufficient privileges to complete the operation'
       );
     }
 

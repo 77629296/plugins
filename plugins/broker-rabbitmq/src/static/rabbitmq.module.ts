@@ -1,16 +1,16 @@
-import { Global, Module } from "@nestjs/common";
-import { ClientProxyFactory } from "@nestjs/microservices";
-import { generateRabbitMQClientOptions } from "./generateRabbitMQClientOptions";
-import { RabbitMQProducerService } from "./rabbitmq.producer.service";
-import { RabbitMQController } from "./rabbitmq.controller";
-import { ConfigService } from "@nestjs/config";
+import { Global, Module } from '@nestjs/common';
+import { ClientProxyFactory } from '@nestjs/microservices';
+import { generateRabbitMQClientOptions } from './generateRabbitMQClientOptions';
+import { RabbitMQProducerService } from './rabbitmq.producer.service';
+import { RabbitMQController } from './rabbitmq.controller';
+import { ConfigService } from '@nestjs/config';
 
 @Global()
 @Module({
   imports: [],
   providers: [
     {
-      provide: "RABBITMQ_CLIENT",
+      provide: 'RABBITMQ_CLIENT',
       useFactory: (configService: ConfigService) => {
         return ClientProxyFactory.create(
           generateRabbitMQClientOptions(configService)
@@ -23,4 +23,4 @@ import { ConfigService } from "@nestjs/config";
   controllers: [RabbitMQController],
   exports: [RabbitMQProducerService],
 })
-export class RabbitMQModule { }
+export class RabbitMQModule {}

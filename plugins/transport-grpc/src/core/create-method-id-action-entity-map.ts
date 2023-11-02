@@ -1,6 +1,6 @@
-import { Entity } from "@amplication/code-gen-types";
-import { namedTypes, builders } from "ast-types";
-import { pascalCase } from "pascal-case";
+import { Entity } from '@amplication/code-gen-types';
+import { namedTypes, builders } from 'ast-types';
+import { pascalCase } from 'pascal-case';
 
 type MethodsIdsActionEntityTriplet = {
   methodId: namedTypes.Identifier;
@@ -27,14 +27,14 @@ type ControllersIdsActionEntity = {
 };
 
 export enum EnumMessageType {
-  Empty = "empty",
-  Create = "create",
-  EntityObject = "entityObject",
-  EntityWhereInput = "entityWhereInput",
-  EntityUpdateInput = "entityUpdateInput",
-  RelatedEntityObject = "relatedEntityObject",
-  RelatedEntityWhereInputObject = "relatedEntityWhereInputObject",
-  CombineWhereUniqInput = "combineWhereUniqInput",
+  Empty = 'empty',
+  Create = 'create',
+  EntityObject = 'entityObject',
+  EntityWhereInput = 'entityWhereInput',
+  EntityUpdateInput = 'entityUpdateInput',
+  RelatedEntityObject = 'relatedEntityObject',
+  RelatedEntityWhereInputObject = 'relatedEntityWhereInputObject',
+  CombineWhereUniqInput = 'combineWhereUniqInput',
 }
 
 export const controllerMethodsIdsActionPairs = (
@@ -43,46 +43,46 @@ export const controllerMethodsIdsActionPairs = (
 ): MethodsIdsActionEntityTriplet[] => [
   {
     methodId: templateMapping[
-      "CREATE_ENTITY_FUNCTION"
+      'CREATE_ENTITY_FUNCTION'
     ] as namedTypes.Identifier,
     entity: entity,
-    methodName: "create",
+    methodName: 'create',
     inputObjectName: `${pascalCase(entity.name)}CreateInput`,
     outputObjectName: pascalCase(entity.name),
   },
   {
     methodId: templateMapping[
-      "FIND_MANY_ENTITY_FUNCTION"
+      'FIND_MANY_ENTITY_FUNCTION'
     ] as namedTypes.Identifier,
     entity: entity,
-    methodName: "findMany",
-    inputObjectName: "findManyParams",
+    methodName: 'findMany',
+    inputObjectName: 'findManyParams',
     outputObjectName: `stream ${pascalCase(entity.name)}`,
   },
   {
     methodId: templateMapping[
-      "FIND_ONE_ENTITY_FUNCTION"
+      'FIND_ONE_ENTITY_FUNCTION'
     ] as namedTypes.Identifier,
     entity: entity,
-    methodName: "findOne",
+    methodName: 'findOne',
     inputObjectName: `${pascalCase(entity.name)}WhereUniqueInput`,
     outputObjectName: pascalCase(entity.name),
   },
   {
     methodId: templateMapping[
-      "UPDATE_ENTITY_FUNCTION"
+      'UPDATE_ENTITY_FUNCTION'
     ] as namedTypes.Identifier,
     entity: entity,
-    methodName: "update",
+    methodName: 'update',
     inputObjectName: `${pascalCase(entity.name)}UpdateInput`,
     outputObjectName: pascalCase(entity.name),
   },
   {
     methodId: templateMapping[
-      "DELETE_ENTITY_FUNCTION"
+      'DELETE_ENTITY_FUNCTION'
     ] as namedTypes.Identifier,
     entity: entity,
-    methodName: "delete",
+    methodName: 'delete',
     inputObjectName: `${pascalCase(entity.name)}WhereUniqueInput`,
     outputObjectName: pascalCase(entity.name),
   },
@@ -106,7 +106,7 @@ export const methodMessages = (entityName: string): methodMessage[] => [
     enumMessageType: EnumMessageType.EntityUpdateInput,
   },
   {
-    name: "findManyParams",
+    name: 'findManyParams',
     enumMessageType: EnumMessageType.Empty, //an empty message
   },
 ];
@@ -160,19 +160,19 @@ export const controllerToManyIdsActionPairs = (
   fieldName: string
 ): ControllersIdsActionEntity[] => [
   {
-    methodId: toManyMapping["FIND_MANY"],
+    methodId: toManyMapping['FIND_MANY'],
     methodName: `findMany${pascalCase(fieldName)}`,
   },
   {
-    methodId: toManyMapping["UPDATE"],
+    methodId: toManyMapping['UPDATE'],
     methodName: `update${pascalCase(fieldName)}`,
   },
   {
-    methodId: toManyMapping["CONNECT"],
+    methodId: toManyMapping['CONNECT'],
     methodName: `connect${pascalCase(fieldName)}`,
   },
   {
-    methodId: toManyMapping["DISCONNECT"],
+    methodId: toManyMapping['DISCONNECT'],
     methodName: `disconnect${pascalCase(fieldName)}`,
   },
 ];

@@ -4,7 +4,7 @@ import type {
   DsgContext,
   Events,
   ModuleMap,
-} from "@amplication/code-gen-types";
+} from '@amplication/code-gen-types';
 import {
   moduleNameRdsKey,
   moduleNameSgKey,
@@ -19,12 +19,12 @@ import {
   pgBackupRetentionPeriodKey,
   pgSgIdentifierKey,
   pgDatabaseInstanceClassKey,
-} from "./constants";
-import { getPluginSettings, getTerraformDirectory } from "./utils";
-import { EventNames } from "@amplication/code-gen-types";
-import { resolve } from "path";
-import { camelCase, kebabCase, set, snakeCase } from "lodash";
-import { isPostgresSettings } from "./types";
+} from './constants';
+import { getPluginSettings, getTerraformDirectory } from './utils';
+import { EventNames } from '@amplication/code-gen-types';
+import { resolve } from 'path';
+import { camelCase, kebabCase, set, snakeCase } from 'lodash';
+import { isPostgresSettings } from './types';
 
 class TerraformAwsDatabaseRdsPlugin implements AmplicationPlugin {
   register(): Events {
@@ -47,7 +47,7 @@ class TerraformAwsDatabaseRdsPlugin implements AmplicationPlugin {
     const serviceName = kebabCase(context.resourceInfo?.name);
     if (!serviceName) {
       throw new Error(
-        "TerraformAwsRepositoryEcrPlugin: Service name is undefined"
+        'TerraformAwsRepositoryEcrPlugin: Service name is undefined'
       );
     }
 
@@ -66,9 +66,9 @@ class TerraformAwsDatabaseRdsPlugin implements AmplicationPlugin {
     const underscoreName: string = snakeCase(serviceName);
     const hyphenName: string = kebabCase(serviceName);
 
-    const templateFileName: string = "rds-template.tf";
-    const fileNamePrefix: string = "rds-";
-    const fileNameSuffix: string = ".tf";
+    const templateFileName = 'rds-template.tf';
+    const fileNamePrefix = 'rds-';
+    const fileNameSuffix = '.tf';
 
     // default database type to postgres, when new
     // database types are added the template for these
@@ -79,7 +79,7 @@ class TerraformAwsDatabaseRdsPlugin implements AmplicationPlugin {
     let securityGroupName: string;
 
     if (isPostgresSettings(settings)) {
-      staticPath = resolve(__dirname, "./static/postgres");
+      staticPath = resolve(__dirname, './static/postgres');
       databaseIdentifier = settings.postgres.identifier
         ? settings.postgres.identifier
         : hyphenName;
@@ -110,8 +110,8 @@ class TerraformAwsDatabaseRdsPlugin implements AmplicationPlugin {
     if (isPostgresSettings(settings)) {
       staticFiles.replaceModulesCode((_path, code) =>
         code
-          .replaceAll(moduleNameRdsKey, "rds_" + underscoreName)
-          .replaceAll(moduleNameSgKey, "sg_" + underscoreName)
+          .replaceAll(moduleNameRdsKey, 'rds_' + underscoreName)
+          .replaceAll(moduleNameSgKey, 'sg_' + underscoreName)
           .replaceAll(pgDatabaseIdentifierKey, databaseIdentifier)
           .replaceAll(
             pgAllocatedStorageKey,
@@ -137,7 +137,7 @@ class TerraformAwsDatabaseRdsPlugin implements AmplicationPlugin {
             pgBackupRetentionPeriodKey,
             String(settings.postgres.backup.retention_period)
           )
-          .replaceAll(pgSgIdentifierKey, "rds-" + securityGroupName)
+          .replaceAll(pgSgIdentifierKey, 'rds-' + securityGroupName)
       );
     } else {
       throw new Error(

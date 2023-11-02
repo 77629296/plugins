@@ -1,8 +1,8 @@
-import { print, readFile } from "@amplication/code-gen-utils";
-import { EnumAuthProviderType } from "../types";
-import { DsgContext, Module } from "@amplication/code-gen-types";
-import { join } from "path";
-import { templatesPath } from "../constants";
+import { print, readFile } from '@amplication/code-gen-utils';
+import { EnumAuthProviderType } from '../types';
+import { DsgContext, Module } from '@amplication/code-gen-types';
+import { join } from 'path';
+import { templatesPath } from '../constants';
 
 export async function createTokenServiceTests(
   dsgContext: DsgContext
@@ -12,7 +12,7 @@ export async function createTokenServiceTests(
   const authProvider: EnumAuthProviderType =
     resourceInfo?.settings.authProvider || EnumAuthProviderType.Jwt;
   const name =
-    authProvider === EnumAuthProviderType.Http ? "Basic" : authProvider;
+    authProvider === EnumAuthProviderType.Http ? 'Basic' : authProvider;
 
   const templatePath = join(
     templatesPath,

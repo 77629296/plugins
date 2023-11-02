@@ -1,22 +1,22 @@
-import { builders, namedTypes } from "ast-types";
+import { builders, namedTypes } from 'ast-types';
 import {
   EnumEntityAction,
   EnumEntityPermissionType,
-} from "@amplication/code-gen-types";
-import { getClassMethodById, removeDecoratorByName } from "./ast";
+} from '@amplication/code-gen-types';
+import { getClassMethodById, removeDecoratorByName } from './ast';
 import {
   buildNessJsInterceptorDecorator,
   buildNestAccessControlDecorator,
   buildSwaggerForbiddenResponse,
-} from "./nestjs-code-generation";
-import { EnumTemplateType } from "../core/create-method-id-action-entity-map";
+} from './nestjs-code-generation';
+import { EnumTemplateType } from '../core/create-method-id-action-entity-map';
 
-export const PUBLIC_DECORATOR_NAME = "Public";
+export const PUBLIC_DECORATOR_NAME = 'Public';
 
 export const ACL_FILTER_RESPONSE_INTERCEPTOR_NAME =
-  "AclFilterResponseInterceptor";
+  'AclFilterResponseInterceptor';
 export const ACL_VALIDATE_REQUEST_INTERCEPTOR_NAME =
-  "AclValidateRequestInterceptor";
+  'AclValidateRequestInterceptor';
 
 export function setAuthPermissions(
   classDeclaration: namedTypes.ClassDeclaration,
@@ -58,17 +58,17 @@ export function setAuthPermissions(
     classMethod.decorators?.unshift(AclValidateRequestInterceptor);
   }
 
-  let possessionType = "any";
+  let possessionType = 'any';
   if (
-    methodName === "FIND_ONE_ENTITY_FUNCTION" ||
-    methodName === "ENTITY_QUERY"
+    methodName === 'FIND_ONE_ENTITY_FUNCTION' ||
+    methodName === 'ENTITY_QUERY'
   ) {
-    possessionType = "own";
+    possessionType = 'own';
   }
   classMethod.decorators?.push(
     buildNestAccessControlDecorator(
       entityName,
-      isActionSearchOrView ? "read" : action.toLocaleLowerCase(),
+      isActionSearchOrView ? 'read' : action.toLocaleLowerCase(),
       possessionType
     )
   );

@@ -5,37 +5,37 @@ on:
   workflow_dispatch:
     inputs:
       plugin:
-        description: "Plugin to be published"
+        description: 'Plugin to be published'
         type: choice
         required: true
         options:
-          - "auth-basic"
-          - "auth-core"
-          - "auth-jwt"
-          - "broker-kafka"
-          - "broker-nats"
-          - "broker-rabbitmq"
-          - "broker-redis"
-          - "cache-redis"
-          - "ci-github-actions"
-          - "db-mongo"
-          - "db-mysql"
-          - "db-postgres"
-          - "db-sqlserver"
-          - "deployment-helm-chart"
-          - "deployment-github-actions-aws-ecs"
-          - "formatter-prettier"
-          - "integration-openai"
-          - "observability-opentelemetry"
-          - "provisioning-terraform-aws-deployment-ecs"
-          - "provisioning-terraform-aws-database-rds"
-          - "provisioning-terraform-aws-repository-ecr"
-          - "provisioning-terraform-aws-core"
-          - "swagger-apibody"
-          - "linter-eslint"
-          - "transport-grpc"
+          - 'auth-basic'
+          - 'auth-core'
+          - 'auth-jwt'
+          - 'broker-kafka'
+          - 'broker-nats'
+          - 'broker-rabbitmq'
+          - 'broker-redis'
+          - 'cache-redis'
+          - 'ci-github-actions'
+          - 'db-mongo'
+          - 'db-mysql'
+          - 'db-postgres'
+          - 'db-sqlserver'
+          - 'deployment-helm-chart'
+          - 'deployment-github-actions-aws-ecs'
+          - 'formatter-prettier'
+          - 'integration-openai'
+          - 'observability-opentelemetry'
+          - 'provisioning-terraform-aws-deployment-ecs'
+          - 'provisioning-terraform-aws-database-rds'
+          - 'provisioning-terraform-aws-repository-ecr'
+          - 'provisioning-terraform-aws-core'
+          - 'swagger-apibody'
+          - 'linter-eslint'
+          - 'transport-grpc'
       publish:
-        description: "Publish package"
+        description: 'Publish package'
         type: boolean
         required: true
         default: false
@@ -51,8 +51,8 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: "18.x"
-          registry-url: "https://registry.npmjs.org"
+          node-version: '18.x'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies and build 🔧
         run: npm ci && npm run build

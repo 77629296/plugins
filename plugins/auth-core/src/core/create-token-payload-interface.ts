@@ -1,15 +1,15 @@
-import { types, Module, DsgContext } from "@amplication/code-gen-types";
-import { readFile, print } from "@amplication/code-gen-utils";
-import { interpolate, removeTSClassDeclares } from "../util/ast";
-import { builders, namedTypes } from "ast-types";
-import { getUserIdType } from "../util/get-user-id-type";
-import { join } from "path";
-import { templatesPath } from "../constants";
-import { idTypeTSOptions } from "../util/idTypeMapper";
+import { types, Module, DsgContext } from '@amplication/code-gen-types';
+import { readFile, print } from '@amplication/code-gen-utils';
+import { interpolate, removeTSClassDeclares } from '../util/ast';
+import { builders, namedTypes } from 'ast-types';
+import { getUserIdType } from '../util/get-user-id-type';
+import { join } from 'path';
+import { templatesPath } from '../constants';
+import { idTypeTSOptions } from '../util/idTypeMapper';
 
 const templatePath = join(
   templatesPath,
-  "create-token/token-payload-interface.template.ts"
+  'create-token/token-payload-interface.template.ts'
 );
 
 export async function createTokenPayloadInterface(

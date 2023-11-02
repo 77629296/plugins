@@ -3,14 +3,14 @@ import {
   DsgContext,
   EnumMessagePatternConnectionOptions,
   ModuleMap,
-} from "@amplication/code-gen-types";
-import { mock } from "jest-mock-extended";
-import { join } from "path";
-import { name } from "../../package.json";
-import * as utils from "../utils";
-import RedisBrokerPlugin from "../index";
+} from '@amplication/code-gen-types';
+import { mock } from 'jest-mock-extended';
+import { join } from 'path';
+import { name } from '../../package.json';
+import * as utils from '../utils';
+import RedisBrokerPlugin from '../index';
 
-describe("Testing afterCreateMessageBrokerService hook", () => {
+describe('Testing afterCreateMessageBrokerService hook', () => {
   let plugin: RedisBrokerPlugin;
   let context: DsgContext;
   let params: CreateMessageBrokerTopicsEnumParams;
@@ -23,7 +23,7 @@ describe("Testing afterCreateMessageBrokerService hook", () => {
     params = mock<CreateMessageBrokerTopicsEnumParams>();
     topicsPath = join(
       context.serverDirectories.messageBrokerDirectory,
-      "topics.ts"
+      'topics.ts'
     );
     moduleMap = new ModuleMap(context.logger);
     moduleMap.set({
@@ -31,7 +31,7 @@ describe("Testing afterCreateMessageBrokerService hook", () => {
       path: topicsPath,
     });
   });
-  it("should correctly add the necessary code in the topics enum file", async () => {
+  it('should correctly add the necessary code in the topics enum file', async () => {
     const modules = await plugin.afterCreateMessageBrokerTopicsEnum(
       context,
       params,
@@ -74,39 +74,39 @@ const fakeContext = () => {
         params?: Record<string, unknown>,
         userFriendlyMessage?: string
       ) => {
-        console.log("Warning!", userFriendlyMessage);
+        console.log('Warning!', userFriendlyMessage);
       },
     },
     pluginInstallations: [{ npm: name }],
     serverDirectories: {
-      messageBrokerDirectory: "/",
+      messageBrokerDirectory: '/',
     },
     serviceTopics: [
       {
-        id: "first-broker-first-service-topic",
+        id: 'first-broker-first-service-topic',
         enabled: true,
-        messageBrokerId: "first-broker-id",
+        messageBrokerId: 'first-broker-id',
         patterns: [
           {
-            topicId: "first-service-topic-first-topic",
-            topicName: "firstBrokerFirstServiceTopicFirstTopic",
+            topicId: 'first-service-topic-first-topic',
+            topicName: 'firstBrokerFirstServiceTopicFirstTopic',
             type: EnumMessagePatternConnectionOptions.Receive,
           },
           {
-            topicId: "first-service-topic-second-topic",
-            topicName: "firstBrokerFirstServiceTopicSecondTopic",
+            topicId: 'first-service-topic-second-topic',
+            topicName: 'firstBrokerFirstServiceTopicSecondTopic',
             type: EnumMessagePatternConnectionOptions.Receive,
           },
         ],
       },
       {
-        id: "second-broker-first-service-topic",
+        id: 'second-broker-first-service-topic',
         enabled: true,
-        messageBrokerId: "second-broker-id",
+        messageBrokerId: 'second-broker-id',
         patterns: [
           {
-            topicId: "second-service-topic-first-topic",
-            topicName: "firstBrokerFirstServiceTopicFirstTopic",
+            topicId: 'second-service-topic-first-topic',
+            topicName: 'firstBrokerFirstServiceTopicFirstTopic',
             type: EnumMessagePatternConnectionOptions.Receive,
           },
         ],
@@ -114,50 +114,50 @@ const fakeContext = () => {
     ],
     otherResources: [
       {
-        resourceType: "MessageBroker",
-        buildId: "abuildid",
+        resourceType: 'MessageBroker',
+        buildId: 'abuildid',
         pluginInstallations: [],
         roles: [],
         entities: [],
         topics: [
           {
-            resourceId: "first-broker-first-topic",
-            id: "first-service-topic-first-topic",
-            name: "theFirstTopicInTheFirstBroker",
+            resourceId: 'first-broker-first-topic',
+            id: 'first-service-topic-first-topic',
+            name: 'theFirstTopicInTheFirstBroker',
           },
           {
-            resourceId: "first-broker-second-topic",
-            id: "first-service-topic-second-topic",
-            name: "theSecondTopicInTheFirstBroker",
+            resourceId: 'first-broker-second-topic',
+            id: 'first-service-topic-second-topic',
+            name: 'theSecondTopicInTheFirstBroker',
           },
         ],
         resourceInfo: {
-          name: "firstMessageBroker",
-          description: "This resource is used to store project configuration.",
-          version: "1.0",
-          id: "first-broker-id",
-          url: "http://localhost:3000/first-broker-id",
+          name: 'firstMessageBroker',
+          description: 'This resource is used to store project configuration.',
+          version: '1.0',
+          id: 'first-broker-id',
+          url: 'http://localhost:3000/first-broker-id',
         },
       },
       {
-        resourceType: "MessageBroker",
-        buildId: "abuildid",
+        resourceType: 'MessageBroker',
+        buildId: 'abuildid',
         pluginInstallations: [],
         roles: [],
         entities: [],
         topics: [
           {
-            resourceId: "second-broker-first-topic",
-            id: "second-service-topic-first-topic",
-            name: "theFirstTopicInTheSecondBroker",
+            resourceId: 'second-broker-first-topic',
+            id: 'second-service-topic-first-topic',
+            name: 'theFirstTopicInTheSecondBroker',
           },
         ],
         resourceInfo: {
-          name: "secondMessageBroker",
-          description: "This resource is used to store project configuration.",
-          version: "1.0",
-          id: "second-broker-id",
-          url: "http://localhost:3000/second-broker-id",
+          name: 'secondMessageBroker',
+          description: 'This resource is used to store project configuration.',
+          version: '1.0',
+          id: 'second-broker-id',
+          url: 'http://localhost:3000/second-broker-id',
         },
       },
     ],

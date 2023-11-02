@@ -1,7 +1,7 @@
-import { PluginInstallation } from "@amplication/code-gen-types";
-import { name as PackageName } from "../package.json";
-import { Settings } from "./types";
-import defaultSettings from "../.amplicationrc.json";
+import { PluginInstallation } from '@amplication/code-gen-types';
+import { name as PackageName } from '../package.json';
+import { Settings } from './types';
+import defaultSettings from '../.amplicationrc.json';
 
 export const getPluginSettings = (
   pluginInstallations: PluginInstallation[]
@@ -26,7 +26,7 @@ export const getTerraformDirectory = (
 ): string => {
   const plugin = pluginInstallations.find(
     (plugin) =>
-      plugin.npm === "@amplication/plugin-provisioning-terraform-aws-core"
+      plugin.npm === '@amplication/plugin-provisioning-terraform-aws-core'
   );
 
   if (!plugin) {

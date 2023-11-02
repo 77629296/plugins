@@ -21,9 +21,9 @@ import {
   EnumEntityPermissionType,
   Events,
   ModuleMap,
-} from "@amplication/code-gen-types";
-import { envVariables } from "./constants";
-import { resolve } from "path";
+} from '@amplication/code-gen-types';
+import { envVariables } from './constants';
+import { resolve } from 'path';
 import {
   createUserInfo,
   createTokenPayloadInterface,
@@ -37,7 +37,7 @@ import {
   createAuthServiceSpec,
   createUserDataDecorator,
   createCustomSeed,
-} from "./core";
+} from './core';
 import {
   AddIdentifierFromModuleDecorator,
   addIdentifierToConstructorSuperCall,
@@ -46,19 +46,19 @@ import {
   getClassMethodById,
   importNames,
   interpolate,
-} from "./util/ast";
-import { builders, namedTypes } from "ast-types";
-import { setAuthPermissions } from "./util/set-endpoint-permissions";
+} from './util/ast';
+import { builders, namedTypes } from 'ast-types';
+import { setAuthPermissions } from './util/set-endpoint-permissions';
 import {
   controllerMethodsIdsActionPairs,
   controllerToManyMethodsIdsActionPairs,
   EnumTemplateType,
   resolverMethodsIdsActionPairs,
-} from "./core/create-method-id-action-entity-map";
+} from './core/create-method-id-action-entity-map';
 import {
   addInjectableDependency,
   buildSwaggerForbiddenResponse,
-} from "./util/nestjs-code-generation";
+} from './util/nestjs-code-generation';
 import {
   BlockStatement,
   IfStatement,
@@ -66,11 +66,11 @@ import {
   FunctionDeclaration,
   Identifier,
   TSTypeAnnotation,
-} from "@babel/types";
-import { appendImports, parse, print } from "@amplication/code-gen-utils";
-import { merge } from "lodash";
+} from '@babel/types';
+import { appendImports, parse, print } from '@amplication/code-gen-utils';
+import { merge } from 'lodash';
 
-const TO_MANY_MIXIN_ID = builders.identifier("Mixin");
+const TO_MANY_MIXIN_ID = builders.identifier('Mixin');
 
 class AuthCorePlugin implements AmplicationPlugin {
   register(): Events {
@@ -150,16 +150,16 @@ class AuthCorePlugin implements AmplicationPlugin {
   ) {
     const myValues = {
       dependencies: {
-        "@nestjs/jwt": "^10.1.1",
-        "@nestjs/passport": "^10.0.2",
-        "nest-access-control": "^3.1.0",
-        passport: "0.6.0",
-        "passport-http": "0.3.0",
-        "passport-jwt": "4.0.1",
+        '@nestjs/jwt': '^10.1.1',
+        '@nestjs/passport': '^10.0.2',
+        'nest-access-control': '^3.1.0',
+        passport: '0.6.0',
+        'passport-http': '0.3.0',
+        'passport-jwt': '4.0.1',
       },
       devDependencies: {
-        "@types/passport-http": "0.3.9",
-        "@types/passport-jwt": "3.0.10",
+        '@types/passport-http': '0.3.9',
+        '@types/passport-jwt': '3.0.10',
       },
     };
 
@@ -174,16 +174,16 @@ class AuthCorePlugin implements AmplicationPlugin {
     context: DsgContext,
     eventParams: CreateServerAppModuleParams
   ) {
-    const aclModuleId = builders.identifier("ACLModule");
-    const authModuleId = builders.identifier("AuthModule");
+    const aclModuleId = builders.identifier('ACLModule');
+    const authModuleId = builders.identifier('AuthModule');
 
     const importArray = builders.arrayExpression([
       aclModuleId,
       authModuleId,
-      ...eventParams.templateMapping["MODULES"].elements,
+      ...eventParams.templateMapping['MODULES'].elements,
     ]);
 
-    eventParams.templateMapping["MODULES"] = importArray;
+    eventParams.templateMapping['MODULES'] = importArray;
 
     return eventParams;
   }
@@ -219,11 +219,11 @@ class AuthCorePlugin implements AmplicationPlugin {
 
     if (!appModule) return modules;
     const file = parse(appModule.code);
-    const aclModuleId = builders.identifier("ACLModule");
-    const authModuleId = builders.identifier("AuthModule");
+    const aclModuleId = builders.identifier('ACLModule');
+    const authModuleId = builders.identifier('AuthModule');
 
-    const aclModuleImport = importNames([aclModuleId], "./auth/acl.module");
-    const authModuleImport = importNames([authModuleId], "./auth/auth.module");
+    const aclModuleImport = importNames([aclModuleId], './auth/acl.module');
+    const authModuleImport = importNames([authModuleId], './auth/auth.module');
 
     appendImports(file, [aclModuleImport, authModuleImport]);
 
@@ -238,7 +238,7 @@ class AuthCorePlugin implements AmplicationPlugin {
     eventParams: CreateSeedParams,
     modules: ModuleMap
   ): Promise<ModuleMap> {
-    const staticPath = resolve(__dirname, "./static/scripts");
+    const staticPath = resolve(__dirname, './static/scripts');
     const staticsFiles = await AuthCorePlugin.getStaticFiles(
       context,
       context.serverDirectories.scriptsDirectory,
@@ -253,9 +253,9 @@ class AuthCorePlugin implements AmplicationPlugin {
     eventParams: CreateServerAuthParams,
     modules: ModuleMap
   ): Promise<ModuleMap> {
-    const staticPath = resolve(__dirname, "./static/auth");
+    const staticPath = resolve(__dirname, './static/auth');
 
-    const interceptorsStaticPath = resolve(__dirname, "./static/interceptors");
+    const interceptorsStaticPath = resolve(__dirname, './static/interceptors');
 
     const staticsInterceptorsFiles = await AuthCorePlugin.getStaticFiles(
       context,
@@ -321,8 +321,8 @@ class AuthCorePlugin implements AmplicationPlugin {
     eventParams: CreateEntityModuleParams
   ) {
     const { template, templateMapping } = eventParams;
-    const authModuleId = builders.identifier("AuthModule");
-    const forwardRefId = builders.identifier("forwardRef");
+    const authModuleId = builders.identifier('AuthModule');
+    const forwardRefId = builders.identifier('forwardRef');
     const forwardRefArrowFunction = builders.arrowFunctionExpression(
       [],
       authModuleId
@@ -332,14 +332,14 @@ class AuthCorePlugin implements AmplicationPlugin {
       forwardRefArrowFunction,
     ]);
 
-    const authModuleImport = importNames([authModuleId], "../auth/auth.module");
-    const forwardRefImport = importNames([forwardRefId], "@nestjs/common");
+    const authModuleImport = importNames([authModuleId], '../auth/auth.module');
+    const forwardRefImport = importNames([forwardRefId], '@nestjs/common');
 
     interpolate(template, templateMapping);
 
     AddIdentifierFromModuleDecorator(
       template,
-      templateMapping["MODULE_BASE"],
+      templateMapping['MODULE_BASE'],
       forwardAuthId
     );
 
@@ -357,22 +357,22 @@ class AuthCorePlugin implements AmplicationPlugin {
     context: DsgContext,
     eventParams: CreateEntityModuleBaseParams
   ) {
-    const aclModuleId = builders.identifier("ACLModule");
+    const aclModuleId = builders.identifier('ACLModule');
 
-    const aclModuleImport = importNames([aclModuleId], "../../auth/acl.module");
+    const aclModuleImport = importNames([aclModuleId], '../../auth/acl.module');
 
     const importArray = builders.arrayExpression([
       aclModuleId,
-      ...eventParams.templateMapping["IMPORTS_ARRAY"].elements,
+      ...eventParams.templateMapping['IMPORTS_ARRAY'].elements,
     ]);
 
     const exportArray = builders.arrayExpression([
       aclModuleId,
-      ...eventParams.templateMapping["EXPORT_ARRAY"].elements,
+      ...eventParams.templateMapping['EXPORT_ARRAY'].elements,
     ]);
 
-    eventParams.templateMapping["IMPORTS_ARRAY"] = importArray;
-    eventParams.templateMapping["EXPORT_ARRAY"] = exportArray;
+    eventParams.templateMapping['IMPORTS_ARRAY'] = importArray;
+    eventParams.templateMapping['EXPORT_ARRAY'] = exportArray;
 
     addImports(
       eventParams.template,
@@ -405,25 +405,25 @@ class AuthCorePlugin implements AmplicationPlugin {
 
     const classDeclaration = getClassDeclarationById(
       template,
-      templateMapping["CONTROLLER"]
+      templateMapping['CONTROLLER']
     );
 
     const nestAccessControlImport = builders.importDeclaration(
       [
         builders.importNamespaceSpecifier(
-          builders.identifier("nestAccessControl")
+          builders.identifier('nestAccessControl')
         ),
       ],
-      builders.stringLiteral("nest-access-control")
+      builders.stringLiteral('nest-access-control')
     );
 
-    const rolesBuilderIdentifier = builders.identifier("rolesBuilder");
+    const rolesBuilderIdentifier = builders.identifier('rolesBuilder');
 
     const injectRolesBuilderDecorator = builders.decorator(
       builders.callExpression(
         builders.memberExpression(
-          builders.identifier("nestAccessControl"),
-          builders.identifier("InjectRolesBuilder")
+          builders.identifier('nestAccessControl'),
+          builders.identifier('InjectRolesBuilder')
         ),
         []
       )
@@ -432,8 +432,8 @@ class AuthCorePlugin implements AmplicationPlugin {
     addInjectableDependency(
       classDeclaration,
       rolesBuilderIdentifier.name,
-      builders.identifier("nestAccessControl.RolesBuilder"),
-      "protected",
+      builders.identifier('nestAccessControl.RolesBuilder'),
+      'protected',
       [injectRolesBuilderDecorator]
     );
 
@@ -464,30 +464,30 @@ class AuthCorePlugin implements AmplicationPlugin {
 
     addInjectableDependency(
       classDeclaration,
-      builders.identifier("rolesBuilder").name,
-      builders.identifier("nestAccessControl.RolesBuilder"),
-      "protected"
+      builders.identifier('rolesBuilder').name,
+      builders.identifier('nestAccessControl.RolesBuilder'),
+      'protected'
     );
 
     const nestAccessControlImport = builders.importDeclaration(
       [
         builders.importNamespaceSpecifier(
-          builders.identifier("nestAccessControl")
+          builders.identifier('nestAccessControl')
         ),
       ],
-      builders.stringLiteral("nest-access-control")
+      builders.stringLiteral('nest-access-control')
     );
 
     const defaultAuthGuardImport = builders.importDeclaration(
       [
         builders.importNamespaceSpecifier(
-          builders.identifier("defaultAuthGuard")
+          builders.identifier('defaultAuthGuard')
         ),
       ],
-      builders.stringLiteral("../../auth/defaultAuth.guard")
+      builders.stringLiteral('../../auth/defaultAuth.guard')
     );
 
-    const ignoreComment = builders.commentLine("// @ts-ignore", false);
+    const ignoreComment = builders.commentLine('// @ts-ignore', false);
 
     if (!defaultAuthGuardImport.comments) {
       defaultAuthGuardImport.comments = [];
@@ -505,8 +505,8 @@ class AuthCorePlugin implements AmplicationPlugin {
     const swaggerDecorator = builders.decorator(
       builders.callExpression(
         builders.memberExpression(
-          builders.identifier("swagger"),
-          builders.identifier("SWAGGER_API_AUTH_FUNCTION")
+          builders.identifier('swagger'),
+          builders.identifier('SWAGGER_API_AUTH_FUNCTION')
         ),
         []
       )
@@ -515,17 +515,17 @@ class AuthCorePlugin implements AmplicationPlugin {
     const guardDecorator = builders.decorator(
       builders.callExpression(
         builders.memberExpression(
-          builders.identifier("common"),
-          builders.identifier("UseGuards")
+          builders.identifier('common'),
+          builders.identifier('UseGuards')
         ),
         [
           builders.memberExpression(
-            builders.identifier("defaultAuthGuard"),
-            builders.identifier("DefaultAuthGuard")
+            builders.identifier('defaultAuthGuard'),
+            builders.identifier('DefaultAuthGuard')
           ),
           builders.memberExpression(
-            builders.identifier("nestAccessControl"),
-            builders.identifier("ACGuard")
+            builders.identifier('nestAccessControl'),
+            builders.identifier('ACGuard')
           ),
         ]
       )
@@ -605,7 +605,7 @@ class AuthCorePlugin implements AmplicationPlugin {
 
     setAuthPermissions(
       classDeclaration,
-      eventParams.toOneMapping["FIND_ONE"] as namedTypes.Identifier,
+      eventParams.toOneMapping['FIND_ONE'] as namedTypes.Identifier,
       EnumEntityAction.View,
       relatedEntity.name,
       false,
@@ -632,7 +632,7 @@ class AuthCorePlugin implements AmplicationPlugin {
 
     setAuthPermissions(
       toManyClassDeclaration,
-      eventParams.toManyMapping["FIND_MANY"] as namedTypes.Identifier,
+      eventParams.toManyMapping['FIND_MANY'] as namedTypes.Identifier,
       EnumEntityAction.Search,
       relatedEntity.name,
       false,
@@ -654,31 +654,31 @@ class AuthCorePlugin implements AmplicationPlugin {
 
     const classDeclaration = getClassDeclarationById(
       template,
-      templateMapping["RESOLVER"]
+      templateMapping['RESOLVER']
     );
 
     const commonImport = builders.importDeclaration(
-      [builders.importNamespaceSpecifier(builders.identifier("common"))],
-      builders.stringLiteral("@nestjs/common")
+      [builders.importNamespaceSpecifier(builders.identifier('common'))],
+      builders.stringLiteral('@nestjs/common')
     );
 
     const nestAccessControlImport = builders.importDeclaration(
       [
         builders.importNamespaceSpecifier(
-          builders.identifier("nestAccessControl")
+          builders.identifier('nestAccessControl')
         ),
       ],
-      builders.stringLiteral("nest-access-control")
+      builders.stringLiteral('nest-access-control')
     );
 
     const gqlDefaultAuthGuardImport = importNames(
-      [builders.identifier("GqlDefaultAuthGuard")],
-      "../auth/gqlDefaultAuth.guard"
+      [builders.identifier('GqlDefaultAuthGuard')],
+      '../auth/gqlDefaultAuth.guard'
     );
 
     const gqlACGuardImport = builders.importDeclaration(
-      [builders.importNamespaceSpecifier(builders.identifier("gqlACGuard"))],
-      builders.stringLiteral("../auth/gqlAC.guard")
+      [builders.importNamespaceSpecifier(builders.identifier('gqlACGuard'))],
+      builders.stringLiteral('../auth/gqlAC.guard')
     );
 
     addImports(
@@ -693,13 +693,13 @@ class AuthCorePlugin implements AmplicationPlugin {
       ) as namedTypes.ImportDeclaration[]
     );
 
-    const rolesBuilderIdentifier = builders.identifier("rolesBuilder");
+    const rolesBuilderIdentifier = builders.identifier('rolesBuilder');
 
     const injectRolesBuilderDecorator = builders.decorator(
       builders.callExpression(
         builders.memberExpression(
-          builders.identifier("nestAccessControl"),
-          builders.identifier("InjectRolesBuilder")
+          builders.identifier('nestAccessControl'),
+          builders.identifier('InjectRolesBuilder')
         ),
         []
       )
@@ -708,8 +708,8 @@ class AuthCorePlugin implements AmplicationPlugin {
     addInjectableDependency(
       classDeclaration,
       rolesBuilderIdentifier.name,
-      builders.identifier("nestAccessControl.RolesBuilder"),
-      "protected",
+      builders.identifier('nestAccessControl.RolesBuilder'),
+      'protected',
       [injectRolesBuilderDecorator]
     );
 
@@ -718,14 +718,14 @@ class AuthCorePlugin implements AmplicationPlugin {
     const guardDecorator = builders.decorator(
       builders.callExpression(
         builders.memberExpression(
-          builders.identifier("common"),
-          builders.identifier("UseGuards")
+          builders.identifier('common'),
+          builders.identifier('UseGuards')
         ),
         [
-          builders.identifier("GqlDefaultAuthGuard"),
+          builders.identifier('GqlDefaultAuthGuard'),
           builders.memberExpression(
-            builders.identifier("gqlACGuard"),
-            builders.identifier("GqlACGuard")
+            builders.identifier('gqlACGuard'),
+            builders.identifier('GqlACGuard')
           ),
         ]
       )
@@ -734,13 +734,13 @@ class AuthCorePlugin implements AmplicationPlugin {
     const resolverDecorator = builders.decorator(
       builders.callExpression(
         builders.memberExpression(
-          builders.identifier("graphql"),
-          builders.identifier("Resolver")
+          builders.identifier('graphql'),
+          builders.identifier('Resolver')
         ),
         [
           builders.arrowFunctionExpression(
             [],
-            eventParams.templateMapping["ENTITY"]
+            eventParams.templateMapping['ENTITY']
           ),
         ]
       )
@@ -765,26 +765,26 @@ class AuthCorePlugin implements AmplicationPlugin {
     const nestAccessControlImport = builders.importDeclaration(
       [
         builders.importNamespaceSpecifier(
-          builders.identifier("nestAccessControl")
+          builders.identifier('nestAccessControl')
         ),
       ],
-      builders.stringLiteral("nest-access-control")
+      builders.stringLiteral('nest-access-control')
     );
 
     const gqlACGuardImport = builders.importDeclaration(
-      [builders.importNamespaceSpecifier(builders.identifier("gqlACGuard"))],
-      builders.stringLiteral("../../auth/gqlAC.guard")
+      [builders.importNamespaceSpecifier(builders.identifier('gqlACGuard'))],
+      builders.stringLiteral('../../auth/gqlAC.guard')
     );
 
-    const gqlDefaultAuthGuardId = builders.identifier("GqlDefaultAuthGuard");
+    const gqlDefaultAuthGuardId = builders.identifier('GqlDefaultAuthGuard');
     const gqlDefaultAuthGuardImport = importNames(
       [gqlDefaultAuthGuardId],
-      "../../auth/gqlDefaultAuth.guard"
+      '../../auth/gqlDefaultAuth.guard'
     );
 
     const commonImport = builders.importDeclaration(
-      [builders.importNamespaceSpecifier(builders.identifier("common"))],
-      builders.stringLiteral("@nestjs/common")
+      [builders.importNamespaceSpecifier(builders.identifier('common'))],
+      builders.stringLiteral('@nestjs/common')
     );
 
     addImports(
@@ -801,18 +801,18 @@ class AuthCorePlugin implements AmplicationPlugin {
     if (classDeclaration) {
       const metaClassMethod = getClassMethodById(
         classDeclaration,
-        eventParams.templateMapping["META_QUERY"] as namedTypes.Identifier
+        eventParams.templateMapping['META_QUERY'] as namedTypes.Identifier
       );
       const graphqlQueryDecorator = builders.decorator(
         builders.callExpression(
           builders.memberExpression(
-            builders.identifier("graphql"),
-            builders.identifier("Query")
+            builders.identifier('graphql'),
+            builders.identifier('Query')
           ),
           [
             builders.arrowFunctionExpression(
               [],
-              builders.identifier("MetaQueryPayload")
+              builders.identifier('MetaQueryPayload')
             ),
           ]
         )
@@ -821,24 +821,24 @@ class AuthCorePlugin implements AmplicationPlugin {
       const useRolesDecorator = builders.decorator(
         builders.callExpression(
           builders.memberExpression(
-            builders.identifier("nestAccessControl"),
-            builders.identifier("UseRoles")
+            builders.identifier('nestAccessControl'),
+            builders.identifier('UseRoles')
           ),
           [
             builders.objectExpression([
               builders.objectProperty(
-                builders.identifier("resource"),
+                builders.identifier('resource'),
                 eventParams.templateMapping[
-                  "ENTITY_NAME"
+                  'ENTITY_NAME'
                 ] as namedTypes.StringLiteral
               ),
               builders.objectProperty(
-                builders.identifier("action"),
-                builders.stringLiteral("read")
+                builders.identifier('action'),
+                builders.stringLiteral('read')
               ),
               builders.objectProperty(
-                builders.identifier("possession"),
-                builders.stringLiteral("any")
+                builders.identifier('possession'),
+                builders.stringLiteral('any')
               ),
             ]),
           ]
@@ -872,14 +872,14 @@ class AuthCorePlugin implements AmplicationPlugin {
     const guardDecorator = builders.decorator(
       builders.callExpression(
         builders.memberExpression(
-          builders.identifier("common"),
-          builders.identifier("UseGuards")
+          builders.identifier('common'),
+          builders.identifier('UseGuards')
         ),
         [
-          builders.identifier("GqlDefaultAuthGuard"),
+          builders.identifier('GqlDefaultAuthGuard'),
           builders.memberExpression(
-            builders.identifier("gqlACGuard"),
-            builders.identifier("GqlACGuard")
+            builders.identifier('gqlACGuard'),
+            builders.identifier('GqlACGuard')
           ),
         ]
       )
@@ -888,13 +888,13 @@ class AuthCorePlugin implements AmplicationPlugin {
     const resolverDecorator = builders.decorator(
       builders.callExpression(
         builders.memberExpression(
-          builders.identifier("graphql"),
-          builders.identifier("Resolver")
+          builders.identifier('graphql'),
+          builders.identifier('Resolver')
         ),
         [
           builders.arrowFunctionExpression(
             [],
-            eventParams.templateMapping["ENTITY"]
+            eventParams.templateMapping['ENTITY']
           ),
         ]
       )
@@ -905,9 +905,9 @@ class AuthCorePlugin implements AmplicationPlugin {
 
     addInjectableDependency(
       classDeclaration,
-      builders.identifier("rolesBuilder").name,
-      builders.identifier("nestAccessControl.RolesBuilder"),
-      "protected"
+      builders.identifier('rolesBuilder').name,
+      builders.identifier('nestAccessControl.RolesBuilder'),
+      'protected'
     );
 
     return eventParams;
@@ -917,11 +917,11 @@ class AuthCorePlugin implements AmplicationPlugin {
     interpolate(eventParams.template, eventParams.templateMapping);
 
     const passwordImport = importNames(
-      [builders.identifier("Salt"), builders.identifier("parseSalt")],
-      "../src/auth/password.service"
+      [builders.identifier('Salt'), builders.identifier('parseSalt')],
+      '../src/auth/password.service'
     );
 
-    const hashImport = importNames([builders.identifier("hash")], "bcrypt");
+    const hashImport = importNames([builders.identifier('hash')], 'bcrypt');
 
     addImports(
       eventParams.template,
@@ -931,22 +931,22 @@ class AuthCorePlugin implements AmplicationPlugin {
     );
 
     const ifStatementFromBody = eventParams.template.program.body.find(
-      (x) => x.type === "IfStatement"
+      (x) => x.type === 'IfStatement'
     ) as IfStatement;
 
     const functionDeclarationFromBody = eventParams.template.program.body.find(
-      (x) => x.type === "FunctionDeclaration"
+      (x) => x.type === 'FunctionDeclaration'
     ) as FunctionDeclaration;
 
     const ifBlock = ifStatementFromBody.consequent as BlockStatement;
     const functionDeclarationBlock =
       functionDeclarationFromBody.body as BlockStatement;
 
-    const saltConstVariable = builders.variableDeclaration("const", [
+    const saltConstVariable = builders.variableDeclaration('const', [
       builders.variableDeclarator(
-        builders.identifier("salt"),
-        builders.callExpression(builders.identifier("parseSalt"), [
-          builders.identifier("BCRYPT_SALT"),
+        builders.identifier('salt'),
+        builders.callExpression(builders.identifier('parseSalt'), [
+          builders.identifier('BCRYPT_SALT'),
         ])
       ),
     ]) as Statement;
@@ -956,37 +956,37 @@ class AuthCorePlugin implements AmplicationPlugin {
         builders.expressionStatement(
           builders.callExpression(
             builders.memberExpression(
-              builders.identifier("console"),
-              builders.identifier("error")
+              builders.identifier('console'),
+              builders.identifier('error')
             ),
-            [builders.identifier("error")]
+            [builders.identifier('error')]
           )
         ),
         builders.expressionStatement(
           builders.callExpression(
             builders.memberExpression(
-              builders.identifier("process"),
-              builders.identifier("exit")
+              builders.identifier('process'),
+              builders.identifier('exit')
             ),
             [builders.numericLiteral(1)]
           )
         ),
       ],
       directives: [],
-      type: "BlockStatement",
+      type: 'BlockStatement',
     };
 
     const saltExpression = builders.expressionStatement(
       builders.callExpression(
         builders.memberExpression(
-          builders.callExpression(builders.identifier("seed"), [
-            builders.identifier("salt"),
+          builders.callExpression(builders.identifier('seed'), [
+            builders.identifier('salt'),
           ]),
-          builders.identifier("catch")
+          builders.identifier('catch')
         ),
         [
           builders.arrowFunctionExpression(
-            [builders.identifier("error")],
+            [builders.identifier('error')],
             blockCode
           ),
         ]
@@ -994,10 +994,10 @@ class AuthCorePlugin implements AmplicationPlugin {
     ) as Statement;
 
     const bcryptSaltIdentifier = builders.identifier(
-      "bcryptSalt"
+      'bcryptSalt'
     ) as Identifier;
     bcryptSaltIdentifier.typeAnnotation = builders.tsTypeAnnotation(
-      builders.tsTypeReference(builders.identifier("Salt"))
+      builders.tsTypeReference(builders.identifier('Salt'))
     ) as TSTypeAnnotation;
 
     const authEntity = context.entities?.find(
@@ -1014,32 +1014,32 @@ class AuthCorePlugin implements AmplicationPlugin {
         builders.callExpression(
           builders.memberExpression(
             builders.memberExpression(
-              builders.identifier("client"),
+              builders.identifier('client'),
               builders.identifier(authEntity.name.toLocaleLowerCase())
             ),
-            builders.identifier("upsert")
+            builders.identifier('upsert')
           ),
           [
             builders.objectExpression([
               builders.objectProperty(
-                builders.identifier("where"),
+                builders.identifier('where'),
                 builders.objectExpression([
                   builders.objectProperty(
-                    builders.identifier("username"),
+                    builders.identifier('username'),
                     builders.memberExpression(
-                      builders.identifier("data"),
-                      builders.identifier("username")
+                      builders.identifier('data'),
+                      builders.identifier('username')
                     )
                   ),
                 ])
               ),
               builders.objectProperty(
-                builders.identifier("update"),
+                builders.identifier('update'),
                 builders.objectExpression([])
               ),
               builders.objectProperty(
-                builders.identifier("create"),
-                builders.identifier("data")
+                builders.identifier('create'),
+                builders.identifier('data')
               ),
             ]),
           ]
@@ -1047,10 +1047,10 @@ class AuthCorePlugin implements AmplicationPlugin {
       )
     ) as Statement;
 
-    const dataVar = builders.variableDeclaration("const", [
+    const dataVar = builders.variableDeclaration('const', [
       builders.variableDeclarator(
-        builders.identifier("data"),
-        builders.identifier("DATA")
+        builders.identifier('data'),
+        builders.identifier('DATA')
       ),
     ]) as Statement;
 

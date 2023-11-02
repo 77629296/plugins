@@ -1,18 +1,18 @@
-import { types } from "@amplication/code-gen-types";
-import { builders, namedTypes } from "ast-types";
+import { types } from '@amplication/code-gen-types';
+import { builders, namedTypes } from 'ast-types';
 
 const number = {
-  class: "Number",
-  type: "number",
+  class: 'Number',
+  type: 'number',
 };
 
 const string = {
-  class: "String",
-  type: "string",
+  class: 'String',
+  type: 'string',
 };
 
 export const idTypeClassOptions: {
-  [key in types.Id["idType"]]: namedTypes.Identifier;
+  [key in types.Id['idType']]: namedTypes.Identifier;
 } = {
   AUTO_INCREMENT: builders.identifier(number.class),
   AUTO_INCREMENT_BIG_INT: builders.identifier(number.class),
@@ -21,7 +21,7 @@ export const idTypeClassOptions: {
 };
 
 export const idTypeTSOptions: {
-  [key in types.Id["idType"]]: namedTypes.Identifier;
+  [key in types.Id['idType']]: namedTypes.Identifier;
 } = {
   AUTO_INCREMENT: builders.identifier(number.type),
   AUTO_INCREMENT_BIG_INT: builders.identifier(number.type),

@@ -1,17 +1,17 @@
 import {
   PluginInstallation,
   VariableDictionary,
-} from "@amplication/code-gen-types";
-import { name as PackageName } from "../package.json";
-import { Settings } from "./types";
-import { settings as defaultSettings } from "../.amplicationrc.json";
-import { namedTypes, ASTNode, builders } from "ast-types";
-import { NodePath } from "ast-types/lib/node-path";
-import * as K from "ast-types/gen/kinds";
-import * as recast from "recast";
-import { parse } from "@amplication/code-gen-utils";
-export * from "@amplication/code-gen-utils";
-export { prettyPrint } from "recast";
+} from '@amplication/code-gen-types';
+import { name as PackageName } from '../package.json';
+import { Settings } from './types';
+import { settings as defaultSettings } from '../.amplicationrc.json';
+import { namedTypes, ASTNode, builders } from 'ast-types';
+import { NodePath } from 'ast-types/lib/node-path';
+import * as K from 'ast-types/gen/kinds';
+import * as recast from 'recast';
+import { parse } from '@amplication/code-gen-utils';
+export * from '@amplication/code-gen-utils';
+export { prettyPrint } from 'recast';
 
 export const getPluginSettings = (
   pluginInstallations: PluginInstallation[]
@@ -32,11 +32,11 @@ export const getPluginSettings = (
 
 export const settingToEnvVar = (settingKey: keyof Settings): string => {
   const mapping: { [key in keyof Settings]: string } = {
-    host: "REDIS_BROKER_HOST",
-    port: "REDIS_BROKER_PORT",
-    retryAttempts: "REDIS_BROKER_RETRY_ATTEMPTS",
-    retryDelay: "REDIS_BROKER_RETRY_DELAY",
-    enableTls: "REDIS_BROKER_ENABLE_TLS",
+    host: 'REDIS_BROKER_HOST',
+    port: 'REDIS_BROKER_PORT',
+    retryAttempts: 'REDIS_BROKER_RETRY_ATTEMPTS',
+    retryDelay: 'REDIS_BROKER_RETRY_DELAY',
+    enableTls: 'REDIS_BROKER_ENABLE_TLS',
   };
   return mapping[settingKey];
 };
@@ -53,7 +53,7 @@ export const settingsToVarDict = (settings: Settings): VariableDictionary => {
         // To filter out unexpected settings that don't map to
         // environment variables
         return (
-          key !== "undefined" && obj[key] !== undefined && obj[key] !== null
+          key !== 'undefined' && obj[key] !== undefined && obj[key] !== null
         );
       })
       // Added this last map to get rid of typescript errors
@@ -68,7 +68,7 @@ export const removeSemicolon = (stmt: string) => {
   if (stmt.length === 0) {
     throw new Error("This isn't a statement");
   }
-  if (stmt[stmt.length - 1] !== ";") {
+  if (stmt[stmt.length - 1] !== ';') {
     throw new Error(
       "This statement doesn't end in a semicolon. No semicolon to remove"
     );
@@ -155,7 +155,7 @@ export function interpolate(
     // Recast has a bug of traversing class decorators
     // This method fixes it
     visitClassDeclaration(path) {
-      const childPath = path.get("decorators");
+      const childPath = path.get('decorators');
       if (childPath.value) {
         this.traverse(childPath);
       }
@@ -164,7 +164,7 @@ export function interpolate(
     // Recast has a bug of traversing class property decorators
     // This method fixes it
     visitClassProperty(path) {
-      const childPath = path.get("decorators");
+      const childPath = path.get('decorators');
       if (childPath.value) {
         this.traverse(childPath);
       }
@@ -172,7 +172,7 @@ export function interpolate(
     },
     // Recast has a bug of traversing TypeScript call expression type parameters
     visitCallExpression(path) {
-      const childPath = path.get("typeParameters");
+      const childPath = path.get('typeParameters');
       if (childPath.value) {
         this.traverse(childPath);
       }
@@ -232,7 +232,7 @@ export function transformTemplateLiteralToStringLiteral(
       }
       return quasie.value.raw;
     })
-    .join("");
+    .join('');
   return builders.stringLiteral(value);
 }
 
@@ -240,7 +240,7 @@ export function evaluateJSX(
   path: NodePath,
   mapping: { [key: string]: ASTNode | undefined }
 ): void {
-  const childrenPath = path.get("children");
+  const childrenPath = path.get('children');
   childrenPath.each(
     (
       childPath: NodePath<

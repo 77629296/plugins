@@ -1,6 +1,6 @@
 export enum BackendTypes {
-  S3 = "s3",
-  Local = "local",
+  S3 = 's3',
+  Local = 'local',
 }
 
 export interface Settings {

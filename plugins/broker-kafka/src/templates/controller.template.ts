@@ -1,5 +1,10 @@
-import { Ctx, EventPattern, KafkaContext, Payload } from "@nestjs/microservices";
-import { Controller } from "@nestjs/common";
+import {
+  Ctx,
+  EventPattern,
+  KafkaContext,
+  Payload,
+} from '@nestjs/microservices';
+import { Controller } from '@nestjs/common';
 
-@Controller("kafka-controller")
+@Controller('kafka-controller')
 export class CONTROLLER {}

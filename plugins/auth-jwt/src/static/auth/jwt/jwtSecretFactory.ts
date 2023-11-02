@@ -1,5 +1,5 @@
-import { JWT_SECRET_KEY } from "../../constants";
-import { SecretsManagerService } from "../../providers/secrets/secretsManager.service";
+import { JWT_SECRET_KEY } from '../../constants';
+import { SecretsManagerService } from '../../providers/secrets/secretsManager.service';
 
 export const jwtSecretFactory = {
   provide: JWT_SECRET_KEY,
@@ -10,7 +10,7 @@ export const jwtSecretFactory = {
     if (secret) {
       return secret;
     }
-    throw new Error("jwtSecretFactory missing secret");
+    throw new Error('jwtSecretFactory missing secret');
   },
   inject: [SecretsManagerService],
 };

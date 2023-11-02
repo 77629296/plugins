@@ -15,15 +15,15 @@ import {
   CreateServerDotEnvParams,
   EnumMessagePatternConnectionOptions,
   CreateMessageBrokerTopicsEnumParams,
-} from "@amplication/code-gen-types";
-import { EventNames } from "@amplication/code-gen-types";
-import { builders, namedTypes } from "ast-types";
-import { join, resolve } from "path";
-import { merge } from "lodash";
-import { readFile, print } from "@amplication/code-gen-utils";
-import { pascalCase } from "pascal-case";
-import * as utils from "./utils";
-import * as constants from "./constants";
+} from '@amplication/code-gen-types';
+import { EventNames } from '@amplication/code-gen-types';
+import { builders, namedTypes } from 'ast-types';
+import { join, resolve } from 'path';
+import { merge } from 'lodash';
+import { readFile, print } from '@amplication/code-gen-utils';
+import { pascalCase } from 'pascal-case';
+import * as utils from './utils';
+import * as constants from './constants';
 
 class RedisBrokerPlugin implements AmplicationPlugin {
   register(): Events {
@@ -72,21 +72,21 @@ class RedisBrokerPlugin implements AmplicationPlugin {
     const { serverDirectories } = context;
     const topicsPath = join(
       serverDirectories.messageBrokerDirectory,
-      "topics.ts"
+      'topics.ts'
     );
     const topicsModule = modules.get(topicsPath);
     if (!topicsModule) {
       throw new Error(
-        "Failed to find the topics.ts file for the message broker topics enum"
+        'Failed to find the topics.ts file for the message broker topics enum'
       );
     }
 
     const topicsFile = utils.parse(topicsModule.code);
     const topicEnumNames: string[] = [];
     topicsFile.program.body.forEach((stmt) => {
-      if (stmt.type === "ExportNamedDeclaration") {
+      if (stmt.type === 'ExportNamedDeclaration') {
         if (
-          stmt.declaration?.type === "TSEnumDeclaration" &&
+          stmt.declaration?.type === 'TSEnumDeclaration' &&
           stmt.declaration?.id?.name
         ) {
           topicEnumNames.push(stmt.declaration.id.name);
@@ -117,7 +117,7 @@ class RedisBrokerPlugin implements AmplicationPlugin {
   ): CreateServerAppModuleParams {
     const { template, templateMapping } = eventParams;
 
-    const redisModuleName = "RedisModule";
+    const redisModuleName = 'RedisModule';
     utils.appendImports(template, [redisModuleImport(redisModuleName)]);
 
     if (!templateMapping.MODULES) {
@@ -136,7 +136,7 @@ class RedisBrokerPlugin implements AmplicationPlugin {
   ): CreateMessageBrokerParams {
     dsgContext.serverDirectories.messageBrokerDirectory = join(
       dsgContext.serverDirectories.srcDirectory,
-      "redis"
+      'redis'
     );
     return eventParams;
   }
@@ -154,7 +154,7 @@ class RedisBrokerPlugin implements AmplicationPlugin {
 
     const connectFunc = utils.getFunctionDeclarationById(
       template,
-      builders.identifier("connectMicroservices")
+      builders.identifier('connectMicroservices')
     );
     connectFunc.body.body.push(connectRedisMicroserviceExpr());
 
@@ -180,10 +180,10 @@ class RedisBrokerPlugin implements AmplicationPlugin {
   ): Promise<ModuleMap> {
     const filePath = resolve(
       constants.staticsPath,
-      "generateRedisClientOptions.ts"
+      'generateRedisClientOptions.ts'
     );
     const file = await readFile(filePath);
-    const generateFileName = "generateRedisClientOptions.ts";
+    const generateFileName = 'generateRedisClientOptions.ts';
 
     const path = join(
       context.serverDirectories.messageBrokerDirectory,
@@ -198,10 +198,10 @@ class RedisBrokerPlugin implements AmplicationPlugin {
     context: DsgContext,
     eventParams: CreateMessageBrokerNestJSModuleParams
   ): Promise<ModuleMap> {
-    const filePath = resolve(constants.staticsPath, "redis.module.ts");
+    const filePath = resolve(constants.staticsPath, 'redis.module.ts');
 
     const file = await readFile(filePath);
-    const generateFileName = "redis.module.ts";
+    const generateFileName = 'redis.module.ts';
 
     const modules = new ModuleMap(context.logger);
     await modules.set({
@@ -223,9 +223,9 @@ class RedisBrokerPlugin implements AmplicationPlugin {
     const modules = new ModuleMap(context.logger);
 
     for (const filename of [
-      "redis.producer.service.ts",
-      "constants.ts",
-      "redisMessage.ts",
+      'redis.producer.service.ts',
+      'constants.ts',
+      'redisMessage.ts',
     ]) {
       const filepath = resolve(constants.staticsPath, filename);
       const code = await readFile(filepath);
@@ -237,10 +237,10 @@ class RedisBrokerPlugin implements AmplicationPlugin {
 
     const templatePath = join(
       constants.templatesPath,
-      "controller.template.ts"
+      'controller.template.ts'
     );
     const template = await readFile(templatePath);
-    const controllerId = builders.identifier("RedisController");
+    const controllerId = builders.identifier('RedisController');
     utils.interpolate(template, { CONTROLLER: controllerId });
     const controllerClass = utils.getClassDeclarationById(
       template,
@@ -262,7 +262,7 @@ class RedisBrokerPlugin implements AmplicationPlugin {
       code: print(template).code,
       path: join(
         serverDirectories.messageBrokerDirectory,
-        "redis.controller.ts"
+        'redis.controller.ts'
       ),
     });
 
@@ -306,14 +306,14 @@ const redisModuleImport = (
 ): namedTypes.ImportDeclaration => {
   return builders.importDeclaration(
     [builders.importSpecifier(builders.identifier(redisModuleName))],
-    builders.stringLiteral("./redis/redis.module")
+    builders.stringLiteral('./redis/redis.module')
   );
 };
 
 const microserviceOptionsImport = (): namedTypes.ImportDeclaration => {
   return builders.importDeclaration(
-    [builders.importSpecifier(builders.identifier("MicroserviceOptions"))],
-    builders.stringLiteral("@nestjs/microservices")
+    [builders.importSpecifier(builders.identifier('MicroserviceOptions'))],
+    builders.stringLiteral('@nestjs/microservices')
   );
 };
 
@@ -321,16 +321,16 @@ const genRedisClientOptsImport = (): namedTypes.ImportDeclaration => {
   return builders.importDeclaration(
     [
       builders.importSpecifier(
-        builders.identifier("generateRedisClientOptions")
+        builders.identifier('generateRedisClientOptions')
       ),
     ],
-    builders.stringLiteral("./redis/generateRedisClientOptions")
+    builders.stringLiteral('./redis/generateRedisClientOptions')
   );
 };
 
 const connectRedisMicroserviceExpr = (): namedTypes.ExpressionStatement => {
   const typeArgs = builders.tsTypeParameterInstantiation([
-    builders.tsTypeReference(builders.identifier("MicroserviceOptions")),
+    builders.tsTypeReference(builders.identifier('MicroserviceOptions')),
   ]);
   const expr = builders.callExpression(appConnectMicroserviceObj(), [
     genRedisClientOptsInvocation(),
@@ -342,15 +342,15 @@ const connectRedisMicroserviceExpr = (): namedTypes.ExpressionStatement => {
 
 const appConnectMicroserviceObj = (): namedTypes.MemberExpression => {
   return builders.memberExpression(
-    builders.identifier("app"),
-    builders.identifier("connectMicroservice")
+    builders.identifier('app'),
+    builders.identifier('connectMicroservice')
   );
 };
 
 const genRedisClientOptsInvocation = (): namedTypes.CallExpression => {
   return builders.callExpression(
-    builders.identifier("generateRedisClientOptions"),
-    [builders.identifier("configService")]
+    builders.identifier('generateRedisClientOptions'),
+    [builders.identifier('configService')]
   );
 };
 
@@ -363,7 +363,7 @@ const redisControllerMethod = (topicName: string): namedTypes.ClassMethod => {
     params: [redisMessageId()],
     returnType: builders.tsTypeAnnotation(
       builders.tsTypeReference(
-        builders.identifier("Promise"),
+        builders.identifier('Promise'),
         builders.tsTypeParameterInstantiation([builders.tsVoidKeyword()])
       )
     ),
@@ -373,15 +373,15 @@ const redisControllerMethod = (topicName: string): namedTypes.ClassMethod => {
 
 const redisMessageId = (): namedTypes.Identifier => {
   const id = builders.identifier.from({
-    name: "message",
+    name: 'message',
     typeAnnotation: builders.tsTypeAnnotation(
-      builders.tsTypeReference(builders.identifier("RedisMessage"))
+      builders.tsTypeReference(builders.identifier('RedisMessage'))
     ),
   });
   //@ts-ignore
   id.decorators = [
     builders.decorator(
-      builders.callExpression(builders.identifier("Payload"), [])
+      builders.callExpression(builders.identifier('Payload'), [])
     ),
   ];
   return id;
@@ -389,7 +389,7 @@ const redisMessageId = (): namedTypes.Identifier => {
 
 const eventPatternDecorator = (topicName: string): namedTypes.Decorator => {
   return builders.decorator(
-    builders.callExpression(builders.identifier("EventPattern"), [
+    builders.callExpression(builders.identifier('EventPattern'), [
       builders.stringLiteral(topicName),
     ])
   );
@@ -403,7 +403,7 @@ const allMessageBrokerTopicsTypeDeclaration = (topicEnumNames: string[]) => {
     return builders.exportDeclaration(
       false,
       builders.tsTypeAliasDeclaration(
-        builders.identifier("AllMessageBrokerTopics"),
+        builders.identifier('AllMessageBrokerTopics'),
         rightSide
       )
     );

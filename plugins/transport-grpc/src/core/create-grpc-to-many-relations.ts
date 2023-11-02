@@ -1,22 +1,22 @@
 import {
   CreateEntityGrpcControllerToManyRelationMethodsParams,
   DsgContext,
-} from "@amplication/code-gen-types";
-import { readFile } from "@amplication/code-gen-utils";
-import { builders } from "ast-types";
+} from '@amplication/code-gen-types';
+import { readFile } from '@amplication/code-gen-utils';
+import { builders } from 'ast-types';
 import {
   getClassDeclarationById,
   getClassMethodByIdName,
   interpolate,
-} from "../util/ast";
-import { controllerToManyIdsActionPairs } from "./create-method-id-action-entity-map";
-import { join } from "path";
-import { templatesPath } from "../constants";
-import { buildGrpcMethodDecorator } from "./create-base-grpc-controller";
+} from '../util/ast';
+import { controllerToManyIdsActionPairs } from './create-method-id-action-entity-map';
+import { join } from 'path';
+import { templatesPath } from '../constants';
+import { buildGrpcMethodDecorator } from './create-base-grpc-controller';
 
 const toManyRelationMethodsGrpcPath = join(
   templatesPath,
-  "to-many.grpc.template.ts"
+  'to-many.grpc.template.ts'
 );
 
 export async function createGrpcControllerToManyRelationMethods(
@@ -33,7 +33,7 @@ export async function createGrpcControllerToManyRelationMethods(
 
     const classDeclaration = getClassDeclarationById(
       toManyRelationMethodsGrpcPathTemplate,
-      builders.identifier("Mixin")
+      builders.identifier('Mixin')
     );
 
     controllerToManyIdsActionPairs(toManyMapping, field.name).forEach(

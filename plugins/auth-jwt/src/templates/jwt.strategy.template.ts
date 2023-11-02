@@ -1,6 +1,6 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { JWT_SECRET_KEY } from "../../constants";
-import { JwtStrategyBase } from "./base/jwt.strategy.base";
+import { Inject, Injectable } from '@nestjs/common';
+import { JWT_SECRET_KEY } from '../../constants';
+import { JwtStrategyBase } from './base/jwt.strategy.base';
 
 declare class ENTITY_SERVICE {}
 

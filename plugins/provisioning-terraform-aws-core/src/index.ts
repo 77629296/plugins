@@ -4,7 +4,7 @@ import type {
   DsgContext,
   Events,
   ModuleMap,
-} from "@amplication/code-gen-types";
+} from '@amplication/code-gen-types';
 import {
   nameKey,
   regionIdentifierKey,
@@ -16,13 +16,13 @@ import {
   environmentKey,
   backendKey,
   createDatabaseSubnetGroupKey,
-} from "./constants";
-import { join } from "node:path";
-import { getPluginSettings } from "./utils";
-import { BackendTypes } from "./types";
-import { EventNames } from "@amplication/code-gen-types";
-import { resolve } from "path";
-import { kebabCase } from "lodash";
+} from './constants';
+import { join } from 'node:path';
+import { getPluginSettings } from './utils';
+import { BackendTypes } from './types';
+import { EventNames } from '@amplication/code-gen-types';
+import { resolve } from 'path';
+import { kebabCase } from 'lodash';
 
 class TerraformAwsCorePlugin implements AmplicationPlugin {
   /**
@@ -41,14 +41,14 @@ class TerraformAwsCorePlugin implements AmplicationPlugin {
     eventParams: CreateServerParams,
     modules: ModuleMap
   ): Promise<ModuleMap> {
-    context.logger.info("Generating Terraform Amazon Web Services Core ...");
+    context.logger.info('Generating Terraform Amazon Web Services Core ...');
 
     // determine the name of the service which will be used as the name for the workflow
     // workflow names must be lower case letters and numbers. words may be separated with dashes (-):
     const serviceName = kebabCase(context.resourceInfo?.name);
 
     if (!serviceName) {
-      throw new Error("Service name is undefined");
+      throw new Error('Service name is undefined');
     }
 
     // fetch the plugin specific settings and merge them with the defaults
@@ -62,7 +62,7 @@ class TerraformAwsCorePlugin implements AmplicationPlugin {
      *    option 2 (value: false): /[optional: mono_prefix]/<service_name>/<directory_name_value>
      */
 
-    const rootDirectoryPath: string = "./";
+    const rootDirectoryPath = './';
     const terraformDirectoryPath: string = settings.root_level
       ? join(rootDirectoryPath, settings.directory_name)
       : join(context.serverDirectories.baseDirectory, settings.directory_name);
@@ -82,7 +82,7 @@ class TerraformAwsCorePlugin implements AmplicationPlugin {
     }
 
     // set the path to the static files and fetch them for manipulation
-    const staticPath = resolve(__dirname, "./static");
+    const staticPath = resolve(__dirname, './static');
     const staticFiles = await context.utils.importStaticModules(
       staticPath,
       terraformDirectoryPath
@@ -117,7 +117,7 @@ class TerraformAwsCorePlugin implements AmplicationPlugin {
         .replaceAll(backendKey, backendConfiguration)
     );
 
-    context.logger.info("Generated Terraform Amazon Web Services Core ...");
+    context.logger.info('Generated Terraform Amazon Web Services Core ...');
 
     await modules.merge(staticFiles);
     return modules;

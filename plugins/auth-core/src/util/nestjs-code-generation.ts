@@ -1,5 +1,5 @@
-import { builders, namedTypes } from "ast-types";
-import { findConstructor } from "./ast";
+import { builders, namedTypes } from 'ast-types';
+import { findConstructor } from './ast';
 
 export function buildNessJsInterceptorDecorator(
   identifier: namedTypes.Identifier
@@ -7,8 +7,8 @@ export function buildNessJsInterceptorDecorator(
   return builders.decorator(
     builders.callExpression(
       builders.memberExpression(
-        builders.identifier("common"),
-        builders.identifier("UseInterceptors")
+        builders.identifier('common'),
+        builders.identifier('UseInterceptors')
       ),
       [builders.identifier(identifier.name)]
     )
@@ -19,14 +19,14 @@ export function buildSwaggerForbiddenResponse(): namedTypes.Decorator {
   return builders.decorator(
     builders.callExpression(
       builders.memberExpression(
-        builders.identifier("swagger"),
-        builders.identifier("ApiForbiddenResponse")
+        builders.identifier('swagger'),
+        builders.identifier('ApiForbiddenResponse')
       ),
       [
         builders.objectExpression([
           builders.objectProperty(
-            builders.identifier("type"),
-            builders.identifier("errors.ForbiddenException")
+            builders.identifier('type'),
+            builders.identifier('errors.ForbiddenException')
           ),
         ]),
       ]
@@ -42,21 +42,21 @@ export function buildNestAccessControlDecorator(
   return builders.decorator(
     builders.callExpression(
       builders.memberExpression(
-        builders.identifier("nestAccessControl"),
-        builders.identifier("UseRoles")
+        builders.identifier('nestAccessControl'),
+        builders.identifier('UseRoles')
       ),
       [
         builders.objectExpression([
           builders.objectProperty(
-            builders.identifier("resource"),
+            builders.identifier('resource'),
             builders.stringLiteral(resource)
           ),
           builders.objectProperty(
-            builders.identifier("action"),
+            builders.identifier('action'),
             builders.stringLiteral(action)
           ),
           builders.objectProperty(
-            builders.identifier("possession"),
+            builders.identifier('possession'),
             builders.stringLiteral(possession)
           ),
         ]),
@@ -69,13 +69,13 @@ export function addInjectableDependency(
   classDeclaration: namedTypes.ClassDeclaration,
   name: string,
   typeId: namedTypes.Identifier,
-  accessibility: "public" | "private" | "protected",
+  accessibility: 'public' | 'private' | 'protected',
   decorators?: namedTypes.Decorator[]
 ): void {
   const constructor = findConstructor(classDeclaration);
 
   if (!constructor) {
-    throw new Error("Could not find given class declaration constructor");
+    throw new Error('Could not find given class declaration constructor');
   }
 
   const propToInject = builders.tsParameterProperty.from({

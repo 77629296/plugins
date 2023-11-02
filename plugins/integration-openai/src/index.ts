@@ -6,9 +6,9 @@ import {
   DsgContext,
   Events,
   ModuleMap,
-} from "@amplication/code-gen-types";
-import { resolve } from "path";
-import { dependencies, envVariables } from "./constants";
+} from '@amplication/code-gen-types';
+import { resolve } from 'path';
+import { dependencies, envVariables } from './constants';
 
 class IntegrationOpenaiPlugin implements AmplicationPlugin {
   register(): Events {
@@ -51,7 +51,7 @@ class IntegrationOpenaiPlugin implements AmplicationPlugin {
     eventParams: CreateServerParams,
     modules: ModuleMap
   ): Promise<ModuleMap> {
-    const staticPath = resolve(__dirname, "./static");
+    const staticPath = resolve(__dirname, './static');
     const staticsFiles = await context.utils.importStaticModules(
       staticPath,
       context.serverDirectories.baseDirectory

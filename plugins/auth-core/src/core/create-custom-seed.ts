@@ -1,11 +1,11 @@
-import { Module, DsgContext } from "@amplication/code-gen-types";
-import { join } from "path";
-import { templatesPath } from "../constants";
-import { readFile, print } from "@amplication/code-gen-utils";
-import { builders } from "ast-types";
-import { interpolate, removeTSClassDeclares } from "../util/ast";
+import { Module, DsgContext } from '@amplication/code-gen-types';
+import { join } from 'path';
+import { templatesPath } from '../constants';
+import { readFile, print } from '@amplication/code-gen-utils';
+import { builders } from 'ast-types';
+import { interpolate, removeTSClassDeclares } from '../util/ast';
 
-const customSeedPath = join(templatesPath, "custom-seed.template.ts");
+const customSeedPath = join(templatesPath, 'custom-seed.template.ts');
 
 export async function createCustomSeed(
   dsgContext: DsgContext
@@ -15,8 +15,8 @@ export async function createCustomSeed(
     (x) => x.name === resourceInfo?.settings.authEntityName
   );
   if (!authEntity) {
-    dsgContext.logger.error("Authentication entity does not exist");
-    return { code: "", path: "" };
+    dsgContext.logger.error('Authentication entity does not exist');
+    return { code: '', path: '' };
   }
 
   const template = await readFile(customSeedPath);

@@ -1,7 +1,7 @@
-import { Injectable } from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
-import { INVALID_PASSWORD_ERROR, INVALID_USERNAME_ERROR } from "../constants";
-import { ITokenService, ITokenPayload } from "../ITokenService";
+import { Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { INVALID_PASSWORD_ERROR, INVALID_USERNAME_ERROR } from '../constants';
+import { ITokenService, ITokenPayload } from '../ITokenService';
 /**
  * TokenServiceBase is a jwt bearer implementation of ITokenService
  */

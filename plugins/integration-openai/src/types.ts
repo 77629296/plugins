@@ -1,4 +1,4 @@
 export enum EnumAuthProviderType {
-  Http = "Http",
-  Jwt = "Jwt",
+  Http = 'Http',
+  Jwt = 'Jwt',
 }

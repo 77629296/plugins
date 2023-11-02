@@ -1,7 +1,7 @@
-import path from "path";
-import normalize from "normalize-path";
+import path from 'path';
+import normalize from 'normalize-path';
 
-const JSON_EXT = ".json";
+const JSON_EXT = '.json';
 
 /**
  * @param from filePath of the module to import from
@@ -23,7 +23,7 @@ export function filePathToModulePath(filePath: string): string {
       ? filePath
       : path.join(parsedPath.dir, parsedPath.name);
   const normalizedPath = normalize(fixedExtPath);
-  return normalizedPath.startsWith("/") || normalizedPath.startsWith(".")
+  return normalizedPath.startsWith('/') || normalizedPath.startsWith('.')
     ? normalizedPath
-    : "./" + normalizedPath;
+    : './' + normalizedPath;
 }

@@ -1,14 +1,14 @@
 import {
   CreateServerAppModuleParams,
   DsgContext,
-} from "@amplication/code-gen-types";
-import { mock } from "jest-mock-extended";
-import { name } from "../../package.json";
-import { builders } from "ast-types";
-import * as utils from "../utils";
-import RedisBrokerPlugin from "../index";
+} from '@amplication/code-gen-types';
+import { mock } from 'jest-mock-extended';
+import { name } from '../../package.json';
+import { builders } from 'ast-types';
+import * as utils from '../utils';
+import RedisBrokerPlugin from '../index';
 
-describe("Testing beforeCreateServerAppModule hook", () => {
+describe('Testing beforeCreateServerAppModule hook', () => {
   let plugin: RedisBrokerPlugin;
   let context: DsgContext;
   let params: CreateServerAppModuleParams;
@@ -30,7 +30,7 @@ describe("Testing beforeCreateServerAppModule hook", () => {
       },
     };
   });
-  it("should add the necessary imports to the file", () => {
+  it('should add the necessary imports to the file', () => {
     const { template } = plugin.beforeCreateServerAppModule(context, params);
     const expectedCode = utils.prettyCode(`
         import { RedisModule } from "./redis/redis.module";
@@ -41,12 +41,12 @@ describe("Testing beforeCreateServerAppModule hook", () => {
     const templateCode = utils.prettyPrint(template).code;
     expect(templateCode).toBe(expectedCode);
   });
-  it("should add the redis module modules list", () => {
+  it('should add the redis module modules list', () => {
     const { templateMapping } = plugin.beforeCreateServerAppModule(
       context,
       params
     );
-    let expectedModules = utils.prettyCode("[RedisModule]");
+    let expectedModules = utils.prettyCode('[RedisModule]');
     // Remove the trailing semi-colon from the end which is inserted
     // by the prettyCode invocation
     expectedModules = utils.removeSemicolon(expectedModules);

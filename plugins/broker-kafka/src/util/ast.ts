@@ -1,8 +1,8 @@
-import * as recast from "recast";
-import { ASTNode, namedTypes, builders } from "ast-types";
-import { NodePath } from "ast-types/lib/node-path";
-import * as K from "ast-types/gen/kinds";
-import { groupBy, mapValues, uniqBy } from "lodash";
+import * as recast from 'recast';
+import { ASTNode, namedTypes, builders } from 'ast-types';
+import { NodePath } from 'ast-types/lib/node-path';
+import * as K from 'ast-types/gen/kinds';
+import { groupBy, mapValues, uniqBy } from 'lodash';
 
 /**
  * Finds class declaration in provided AST node, if no class is found throws an exception
@@ -79,7 +79,7 @@ export function interpolate(
     // Recast has a bug of traversing class decorators
     // This method fixes it
     visitClassDeclaration(path) {
-      const childPath = path.get("decorators");
+      const childPath = path.get('decorators');
       if (childPath.value) {
         this.traverse(childPath);
       }
@@ -88,7 +88,7 @@ export function interpolate(
     // Recast has a bug of traversing class property decorators
     // This method fixes it
     visitClassProperty(path) {
-      const childPath = path.get("decorators");
+      const childPath = path.get('decorators');
       if (childPath.value) {
         this.traverse(childPath);
       }
@@ -96,7 +96,7 @@ export function interpolate(
     },
     // Recast has a bug of traversing TypeScript call expression type parameters
     visitCallExpression(path) {
-      const childPath = path.get("typeParameters");
+      const childPath = path.get('typeParameters');
       if (childPath.value) {
         this.traverse(childPath);
       }
@@ -218,7 +218,7 @@ export function transformTemplateLiteralToStringLiteral(
       }
       return quasie.value.raw;
     })
-    .join("");
+    .join('');
   return builders.stringLiteral(value);
 }
 
@@ -226,7 +226,7 @@ export function evaluateJSX(
   path: NodePath,
   mapping: { [key: string]: ASTNode | undefined }
 ): void {
-  const childrenPath = path.get("children");
+  const childrenPath = path.get('children');
   childrenPath.each(
     (
       childPath: NodePath<

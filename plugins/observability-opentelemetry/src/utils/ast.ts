@@ -1,6 +1,6 @@
-import { namedTypes, builders } from "ast-types";
-import { groupBy, mapValues, uniqBy } from "lodash";
-import { partialParse, print } from "@amplication/code-gen-utils";
+import { namedTypes, builders } from 'ast-types';
+import { groupBy, mapValues, uniqBy } from 'lodash';
+import { partialParse, print } from '@amplication/code-gen-utils';
 
 export class ParseError extends SyntaxError {
   constructor(message: string, source: string) {
@@ -109,7 +109,7 @@ export function expression(
   const stat = statement(strings, ...values);
   if (!namedTypes.ExpressionStatement.check(stat)) {
     throw new Error(
-      "Code must define a single statement expression at the top level"
+      'Code must define a single statement expression at the top level'
     );
   }
   return stat.expression;
@@ -122,7 +122,7 @@ export function statement(
   const code = codeTemplate(strings, ...values);
   const file = partialParse(code);
   if (file.program.body.length !== 1) {
-    throw new Error("Code must have exactly one statement");
+    throw new Error('Code must have exactly one statement');
   }
   const [firstStatement] = file.program.body;
   return firstStatement;
@@ -135,13 +135,13 @@ function codeTemplate(
   return strings
     .flatMap((string, i) => {
       const value = values[i];
-      if (typeof value === "string") return [string, value];
+      if (typeof value === 'string') return [string, value];
       return [
         string,
         Array.isArray(value)
-          ? value.map((item) => print(item).code).join("")
+          ? value.map((item) => print(item).code).join('')
           : print(value).code,
       ];
     })
-    .join("");
+    .join('');
 }

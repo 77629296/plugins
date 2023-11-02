@@ -1,12 +1,12 @@
 import {
   CreateServerDockerComposeParams,
   DsgContext,
-} from "@amplication/code-gen-types";
-import { mock } from "jest-mock-extended";
-import { name } from "../../package.json";
-import RedisBrokerPlugin from "../index";
+} from '@amplication/code-gen-types';
+import { mock } from 'jest-mock-extended';
+import { name } from '../../package.json';
+import RedisBrokerPlugin from '../index';
 
-describe("Testing beforeCreateServerDockerCompose hook", () => {
+describe('Testing beforeCreateServerDockerCompose hook', () => {
   let plugin: RedisBrokerPlugin;
   let context: DsgContext;
   let params: CreateServerDockerComposeParams;
@@ -19,10 +19,10 @@ describe("Testing beforeCreateServerDockerCompose hook", () => {
     params = {
       fileContent: 'version: "3"',
       updateProperties: [],
-      outputFileName: "docker-compose.yml",
+      outputFileName: 'docker-compose.yml',
     };
   });
-  it("should correctly modify the updateProperties", () => {
+  it('should correctly modify the updateProperties', () => {
     const { updateProperties } = plugin.beforeCreateServerDockerCompose(
       context,
       params
@@ -31,18 +31,18 @@ describe("Testing beforeCreateServerDockerCompose hook", () => {
       {
         services: {
           server: {
-            depends_on: ["redis_broker"],
+            depends_on: ['redis_broker'],
           },
           redis_broker: {
-            container_name: "${REDIS_BROKER_HOST}",
-            image: "redis:7",
-            ports: ["${REDIS_BROKER_PORT}:6379"],
-            volumes: ["redis_broker:/redis-broker-data"],
+            container_name: '${REDIS_BROKER_HOST}',
+            image: 'redis:7',
+            ports: ['${REDIS_BROKER_PORT}:6379'],
+            volumes: ['redis_broker:/redis-broker-data'],
           },
         },
         volumes: {
           redis_broker: {
-            driver: "local",
+            driver: 'local',
           },
         },
       },

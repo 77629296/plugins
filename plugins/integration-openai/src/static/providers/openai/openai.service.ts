@@ -1,20 +1,20 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable } from '@nestjs/common';
 import {
   Configuration,
   OpenAIApi,
   ChatCompletionRequestMessage,
   CreateChatCompletionRequest,
-} from "openai";
+} from 'openai';
 
 export type CreateChatCompletionRequestSettings = Omit<
   CreateChatCompletionRequest,
-  "model" | "messages"
+  'model' | 'messages'
 >;
 
 export {
   ChatCompletionRequestMessage,
   ChatCompletionRequestMessageRoleEnum,
-} from "openai";
+} from 'openai';
 
 const CREATE_CHAT_COMPLETION_DEFAULT_SETTINGS: CreateChatCompletionRequestSettings =
   {
@@ -50,7 +50,7 @@ export class OpenaiService {
       messages: messages,
     });
 
-    const results = response.data.choices[0].message?.content || "";
+    const results = response.data.choices[0].message?.content || '';
 
     return results;
   }

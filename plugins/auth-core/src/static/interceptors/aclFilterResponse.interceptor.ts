@@ -3,11 +3,11 @@ import {
   ExecutionContext,
   Injectable,
   NestInterceptor,
-} from "@nestjs/common";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
-import { InjectRolesBuilder, RolesBuilder } from "nest-access-control";
-import { Reflector } from "@nestjs/core";
+} from '@nestjs/common';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { InjectRolesBuilder, RolesBuilder } from 'nest-access-control';
+import { Reflector } from '@nestjs/core';
 
 @Injectable()
 export class AclFilterResponseInterceptor implements NestInterceptor {
@@ -18,7 +18,7 @@ export class AclFilterResponseInterceptor implements NestInterceptor {
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const [permissionsRoles]: any = this.reflector.getAllAndMerge<string[]>(
-      "roles",
+      'roles',
       [context.getHandler(), context.getClass()]
     );
 

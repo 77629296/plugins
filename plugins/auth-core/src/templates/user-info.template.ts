@@ -1,4 +1,4 @@
-import { Field, ObjectType } from "@nestjs/graphql";
+import { Field, ObjectType } from '@nestjs/graphql';
 
 declare class USER_ID_TYPE_ANNOTATION {}
 declare class USER_ID_CLASS {}

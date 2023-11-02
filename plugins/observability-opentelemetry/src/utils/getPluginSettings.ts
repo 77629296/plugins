@@ -1,7 +1,7 @@
-import { name as PackageName } from "@root/package.json";
-import defaultSettings from "@root/amplicationrc.json";
-import { PluginInstallation } from "@amplication/code-gen-types";
-import { Settings } from "@/types";
+import { name as PackageName } from '@root/package.json';
+import defaultSettings from '@root/amplicationrc.json';
+import { PluginInstallation } from '@amplication/code-gen-types';
+import { Settings } from '@/types';
 
 export const getPluginSettings = (
   pluginInstallations: PluginInstallation[]
@@ -19,7 +19,7 @@ export const getPluginSettings = (
 
   // Convert numbers to strings
   Object.entries(settings).forEach(([key, value]) => {
-    if (typeof value === "number") {
+    if (typeof value === 'number') {
       settings[key as keyof typeof settings] = value.toString();
     }
   });

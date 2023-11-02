@@ -6,13 +6,13 @@ export interface Settings {
   [key: string]: any;
 }
 
-export type Example = "Example";
+export type Example = 'Example';
 
 export interface ExampleInterface {
   [key: string]: any;
 }
 
 export enum ExampleEnum {
-  FOO = "foo",
-  BOO = "boo",
+  FOO = 'foo',
+  BOO = 'boo',
 }

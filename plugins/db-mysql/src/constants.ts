@@ -1,45 +1,45 @@
-import { CreateServerDockerComposeParams } from "@amplication/code-gen-types";
-import { DataSource, DataSourceProvider } from "prisma-schema-dsl-types";
+import { CreateServerDockerComposeParams } from '@amplication/code-gen-types';
+import { DataSource, DataSourceProvider } from 'prisma-schema-dsl-types';
 
-export const updateDockerComposeProperties: CreateServerDockerComposeParams["updateProperties"] =
+export const updateDockerComposeProperties: CreateServerDockerComposeParams['updateProperties'] =
   [
     {
       services: {
         server: {
           environment: {
-            DB_URL: "mysql://${DB_USER}:${DB_PASSWORD}@db:3306/${DB_NAME}",
+            DB_URL: 'mysql://${DB_USER}:${DB_PASSWORD}@db:3306/${DB_NAME}',
           },
         },
         migrate: {
           environment: {
-            DB_URL: "mysql://${DB_USER}:${DB_PASSWORD}@db:3306/${DB_NAME}",
+            DB_URL: 'mysql://${DB_USER}:${DB_PASSWORD}@db:3306/${DB_NAME}',
           },
         },
         adminer: {
-          image: "adminer",
-          restart: "always",
-          ports: ["1234:8080"],
+          image: 'adminer',
+          restart: 'always',
+          ports: ['1234:8080'],
         },
         db: {
-          image: "mysql",
-          command: "--default-authentication-plugin=mysql_native_password",
-          restart: "always",
-          ports: ["${DB_PORT}:3306"],
+          image: 'mysql',
+          command: '--default-authentication-plugin=mysql_native_password',
+          restart: 'always',
+          ports: ['${DB_PORT}:3306'],
           environment: {
-            MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}",
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}',
           },
           healthcheck: {
             test: [
-              "CMD",
-              "mysqladmin",
-              "ping",
-              "-h",
-              "localhost",
-              "-u",
-              "${DB_USER}",
+              'CMD',
+              'mysqladmin',
+              'ping',
+              '-h',
+              'localhost',
+              '-u',
+              '${DB_USER}',
             ],
-            timeout: "45s",
-            interval: "10s",
+            timeout: '45s',
+            interval: '10s',
             retries: 10,
           },
         },
@@ -50,37 +50,37 @@ export const updateDockerComposeProperties: CreateServerDockerComposeParams["upd
     },
   ];
 
-export const updateDockerComposeDevProperties: CreateServerDockerComposeParams["updateProperties"] =
+export const updateDockerComposeDevProperties: CreateServerDockerComposeParams['updateProperties'] =
   [
     {
       services: {
         db: {
-          image: "mysql",
-          command: "--default-authentication-plugin=mysql_native_password",
-          restart: "always",
-          ports: ["${DB_PORT}:3306"],
+          image: 'mysql',
+          command: '--default-authentication-plugin=mysql_native_password',
+          restart: 'always',
+          ports: ['${DB_PORT}:3306'],
           environment: {
-            MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}",
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}',
           },
           healthcheck: {
             test: [
-              "CMD",
-              "mysqladmin",
-              "ping",
-              "-h",
-              "localhost",
-              "-u",
-              "${DB_USER}",
+              'CMD',
+              'mysqladmin',
+              'ping',
+              '-h',
+              'localhost',
+              '-u',
+              '${DB_USER}',
             ],
-            timeout: "45s",
-            interval: "10s",
+            timeout: '45s',
+            interval: '10s',
             retries: 10,
           },
         },
         adminer: {
-          image: "adminer",
-          restart: "always",
-          ports: ["1234:8080"],
+          image: 'adminer',
+          restart: 'always',
+          ports: ['1234:8080'],
         },
       },
       volumes: {
@@ -89,8 +89,8 @@ export const updateDockerComposeDevProperties: CreateServerDockerComposeParams["
     },
   ];
 
-const DATASOURCE_NAME = "db";
-const URL_NAME = "DB_URL";
+const DATASOURCE_NAME = 'db';
+const URL_NAME = 'DB_URL';
 
 export const dataSource: DataSource = {
   name: DATASOURCE_NAME,

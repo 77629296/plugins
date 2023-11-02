@@ -4,17 +4,17 @@ import {
   EnumEntityPermissionType,
   EnumEntityAction,
   Module,
-} from "@amplication/code-gen-types";
+} from '@amplication/code-gen-types';
 
 type Action =
-  | "create:any"
-  | "read:any"
-  | "update:any"
-  | "delete:any"
-  | "create:own"
-  | "read:own"
-  | "update:own"
-  | "delete:own";
+  | 'create:any'
+  | 'read:any'
+  | 'update:any'
+  | 'delete:any'
+  | 'create:own'
+  | 'read:own'
+  | 'update:own'
+  | 'delete:own';
 
 /**
  * Defines grant for a role to apply an action for a resource with attributes
@@ -30,14 +30,14 @@ export type Grant = {
 /**
  * Matches all resource attributes (glob notation)
  */
-export const ALL_ATTRIBUTES_ALLOWED = "*";
+export const ALL_ATTRIBUTES_ALLOWED = '*';
 
 // ACL actions
-export const CREATE_ANY: Action = "create:any";
-export const DELETE_ANY: Action = "delete:any";
-export const READ_ANY: Action = "read:any";
-export const UPDATE_ANY: Action = "update:any";
-export const READ_OWN: Action = "read:own";
+export const CREATE_ANY: Action = 'create:any';
+export const DELETE_ANY: Action = 'delete:any';
+export const READ_ANY: Action = 'read:any';
+export const UPDATE_ANY: Action = 'update:any';
+export const READ_OWN: Action = 'read:own';
 
 /**
  * Creates a grants module from given entities and roles.
@@ -99,7 +99,7 @@ export function createGrants(entities: Entity[], roles: Role[]): Grant[] {
         case EnumEntityPermissionType.Granular: {
           if (!permission.permissionRoles) {
             throw new Error(
-              "For granular permissions, permissionRoles must be defined"
+              'For granular permissions, permissionRoles must be defined'
             );
           }
           for (const { resourceRole } of permission.permissionRoles) {
@@ -134,7 +134,7 @@ export function createGrants(entities: Entity[], roles: Role[]): Grant[] {
 
 /** Combines attribute matchers to an attributes expression (glob notation) */
 export function createAttributes(matchers: string[]): string {
-  return matchers.join(",");
+  return matchers.join(',');
 }
 
 /**

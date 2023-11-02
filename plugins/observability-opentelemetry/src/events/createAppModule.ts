@@ -1,11 +1,11 @@
 import {
   CreateServerAppModuleParams,
   DsgContext,
-} from "@amplication/code-gen-types";
-import { addImports, callExpression, importNames } from "@utils/ast";
-import { getPluginSettings } from "@utils/getPluginSettings";
-import { namedTypes, builders } from "ast-types";
-import { identifiers } from "@/constants";
+} from '@amplication/code-gen-types';
+import { addImports, callExpression, importNames } from '@utils/ast';
+import { getPluginSettings } from '@utils/getPluginSettings';
+import { namedTypes, builders } from 'ast-types';
+import { identifiers } from '@/constants';
 
 const {
   OPEN_TELEMETRY_MODULE,
@@ -61,14 +61,14 @@ const generateImports = (): namedTypes.ImportDeclaration[] => {
         GRAPHQL_RESOLVER_INJECTOR,
         GUARD_INJECTOR,
       ],
-      "@amplication/opentelemetry-nestjs"
+      '@amplication/opentelemetry-nestjs'
     ),
-    importNames([HTTP_INSTRUMENTATION], "@opentelemetry/instrumentation-http"),
+    importNames([HTTP_INSTRUMENTATION], '@opentelemetry/instrumentation-http'),
     importNames(
       [OTLP_TRACE_EXPORTER],
-      "@opentelemetry/exporter-trace-otlp-grpc"
+      '@opentelemetry/exporter-trace-otlp-grpc'
     ),
-    importNames([BATCH_SPAN_PROCESSOR], "@opentelemetry/sdk-trace-node"),
+    importNames([BATCH_SPAN_PROCESSOR], '@opentelemetry/sdk-trace-node'),
   ];
 };
 
@@ -80,9 +80,11 @@ export const beforeCreateServerAppModule = (
 
   const { serviceName } = getPluginSettings(context.pluginInstallations);
 
-  templateMapping["MODULES"] = builders.arrayExpression([
-    ...templateMapping["MODULES"].elements,
-    opentelemetryModule(serviceName || context.resourceInfo?.name || "sample-service"),
+  templateMapping['MODULES'] = builders.arrayExpression([
+    ...templateMapping['MODULES'].elements,
+    opentelemetryModule(
+      serviceName || context.resourceInfo?.name || 'sample-service'
+    ),
   ]);
 
   addImports(template, generateImports());

@@ -1,16 +1,16 @@
-import { UnauthorizedException } from "@nestjs/common";
-import { mock } from "jest-mock-extended";
-import { JwtStrategyBase } from "../../../auth/jwt/base/jwt.strategy.base";
-import { TEST_USER } from "../constants";
+import { UnauthorizedException } from '@nestjs/common';
+import { mock } from 'jest-mock-extended';
+import { JwtStrategyBase } from '../../../auth/jwt/base/jwt.strategy.base';
+import { TEST_USER } from '../constants';
 
 declare class ENTITY_SERVICE {}
-describe("Testing the jwtStrategyBase.validate()", () => {
+describe('Testing the jwtStrategyBase.validate()', () => {
   const userService = mock<ENTITY_SERVICE>();
-  const jwtStrategy = new JwtStrategyBase(userService, "Secrete");
+  const jwtStrategy = new JwtStrategyBase(userService, 'Secrete');
   beforeEach(() => {
     userService.findOne.mockClear();
   });
-  it("should throw UnauthorizedException where there is no user", async () => {
+  it('should throw UnauthorizedException where there is no user', async () => {
     //ARRANGE
     userService.findOne
       .calledWith({ where: { username: TEST_USER.username } })

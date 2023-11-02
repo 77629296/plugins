@@ -10,7 +10,7 @@ import {
   EnumDataType,
   Events,
   ModuleMap,
-} from "@amplication/code-gen-types";
+} from '@amplication/code-gen-types';
 import {
   connectGrpcMicroService,
   createGrpcClientOptionsFile,
@@ -18,9 +18,9 @@ import {
   createGrpcControllerBase,
   createGrpcControllerToManyRelationMethods,
   createGrpcProtoFile,
-} from "./core";
-import { merge } from "lodash";
-import { envVariables } from "./constants";
+} from './core';
+import { merge } from 'lodash';
+import { envVariables } from './constants';
 
 class TransportGrpcPlugin implements AmplicationPlugin {
   register(): Events {
@@ -64,9 +64,9 @@ class TransportGrpcPlugin implements AmplicationPlugin {
   ) {
     const myValues = {
       dependencies: {
-        "@grpc/grpc-js": "^1.9.3",
-        "@grpc/proto-loader": "^0.7.10",
-        "@nestjs/microservices": "^10.0.2",
+        '@grpc/grpc-js': '^1.9.3',
+        '@grpc/proto-loader': '^0.7.10',
+        '@nestjs/microservices': '^10.0.2',
       },
     };
 

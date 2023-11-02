@@ -2,8 +2,8 @@ import {
   CreateServerDockerComposeDBParams,
   CreateServerDockerComposeParams,
   DsgContext,
-} from "@amplication/code-gen-types";
-import { dockerComposeDevValues, dockerComposeValues } from "@/constants";
+} from '@amplication/code-gen-types';
+import { dockerComposeDevValues, dockerComposeValues } from '@/constants';
 
 export const beforeCreateServerDockerCompose = (
   context: DsgContext,

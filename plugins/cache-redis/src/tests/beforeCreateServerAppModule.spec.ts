@@ -1,15 +1,15 @@
 import {
   CreateServerAppModuleParams,
   DsgContext,
-} from "@amplication/code-gen-types";
-import { mock } from "jest-mock-extended";
-import { name } from "../../package.json";
-import RedisCachePlugin from "../index";
-import { builders } from "ast-types";
-import * as recast from "recast";
-import * as utils from "../utils";
+} from '@amplication/code-gen-types';
+import { mock } from 'jest-mock-extended';
+import { name } from '../../package.json';
+import RedisCachePlugin from '../index';
+import { builders } from 'ast-types';
+import * as recast from 'recast';
+import * as utils from '../utils';
 
-describe("Testing beforeCreateServerAppModule hook", () => {
+describe('Testing beforeCreateServerAppModule hook', () => {
   let plugin: RedisCachePlugin;
   let context: DsgContext;
   let params: CreateServerAppModuleParams;
@@ -31,7 +31,7 @@ describe("Testing beforeCreateServerAppModule hook", () => {
       },
     };
   });
-  it("should add the necessary imports to the file", () => {
+  it('should add the necessary imports to the file', () => {
     const { template } = plugin.beforeCreateServerAppModule(context, params);
     const expectedCode = prettyCode(`
         import { Module, Scope } from "@nestjs/common";
@@ -43,7 +43,7 @@ describe("Testing beforeCreateServerAppModule hook", () => {
     const templateCode = recast.prettyPrint(template).code;
     expect(templateCode).toBe(expectedCode);
   });
-  it("should add the cache module configured with Redis to the modules list", () => {
+  it('should add the cache module configured with Redis to the modules list', () => {
     const { templateMapping } = plugin.beforeCreateServerAppModule(
       context,
       params

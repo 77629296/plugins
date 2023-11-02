@@ -1,1 +1,1 @@
-export * from "./MissingMainTsFile";
+export * from './MissingMainTsFile';

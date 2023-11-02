@@ -1,9 +1,9 @@
-import { print, readFile } from "@amplication/code-gen-utils";
-import { DsgContext, Module } from "@amplication/code-gen-types";
-import { removeTSIgnoreComments } from "../util/ast";
-import { EnumAuthProviderType } from "../types";
-import { join } from "path";
-import { templatesPath } from "../constants";
+import { print, readFile } from '@amplication/code-gen-utils';
+import { DsgContext, Module } from '@amplication/code-gen-types';
+import { removeTSIgnoreComments } from '../util/ast';
+import { EnumAuthProviderType } from '../types';
+import { join } from 'path';
+import { templatesPath } from '../constants';
 
 export async function createTokenService(
   dsgContext: DsgContext
@@ -13,7 +13,7 @@ export async function createTokenService(
     resourceInfo?.settings.authProvider || EnumAuthProviderType.Jwt;
   const authDir = `${serverDirectories.srcDirectory}/auth`;
   const name =
-    authProvider === EnumAuthProviderType.Http ? "Basic" : authProvider;
+    authProvider === EnumAuthProviderType.Http ? 'Basic' : authProvider;
 
   const templatePath = join(
     templatesPath,

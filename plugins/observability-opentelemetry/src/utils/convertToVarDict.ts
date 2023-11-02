@@ -1,4 +1,4 @@
-import { VariableDictionary } from "@amplication/code-gen-types";
+import { VariableDictionary } from '@amplication/code-gen-types';
 
 export const convertToVarDict = (
   obj: Record<string, string>

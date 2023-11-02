@@ -1,9 +1,9 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 // @ts-ignore
 // eslint-disable-next-line
-import { Credentials } from "./Credentials";
-import { PasswordService } from "./password.service";
-import { TokenService } from "./token.service";
+import { Credentials } from './Credentials';
+import { PasswordService } from './password.service';
+import { TokenService } from './token.service';
 
 declare class ENTITY_NAME_INFO {}
 declare class ENTITY_SERVICE {}
@@ -36,7 +36,7 @@ export class AuthService {
       credentials.password
     );
     if (!user) {
-      throw new UnauthorizedException("The passed credentials are incorrect");
+      throw new UnauthorizedException('The passed credentials are incorrect');
     }
     const accessToken = await this.tokenService.createToken({
       id: user.id,

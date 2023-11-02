@@ -25,7 +25,7 @@ export interface Settings {
   */
 }
 
-type PostgresSettings = Required<Settings> & Omit<Settings, "mysql">;
+type PostgresSettings = Required<Settings> & Omit<Settings, 'mysql'>;
 
 export function isPostgresSettings(
   settings: Settings

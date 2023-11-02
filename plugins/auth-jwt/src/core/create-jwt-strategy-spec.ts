@@ -1,23 +1,23 @@
-import { Module, DsgContext } from "@amplication/code-gen-types";
-import { join } from "path";
+import { Module, DsgContext } from '@amplication/code-gen-types';
+import { join } from 'path';
 import {
   AUTH_ENTITY_ERROR,
   AUTH_ENTITY_LOG_ERROR,
   templatesPath,
-} from "../constants";
-import { readFile } from "@amplication/code-gen-utils";
+} from '../constants';
+import { readFile } from '@amplication/code-gen-utils';
 import {
   addImports,
   importNames,
   interpolate,
   removeTSClassDeclares,
-} from "../util/ast";
-import { builders, namedTypes } from "ast-types";
-import { print } from "@amplication/code-gen-utils";
+} from '../util/ast';
+import { builders, namedTypes } from 'ast-types';
+import { print } from '@amplication/code-gen-utils';
 
 const jwtStrategySpecPath = join(
   templatesPath,
-  "jwt.strategy.template.spec.ts"
+  'jwt.strategy.template.spec.ts'
 );
 
 export async function createJwtStrategySpec(
@@ -26,7 +26,7 @@ export async function createJwtStrategySpec(
   return await mapJwtStrategySpecTemplate(
     dsgContext,
     jwtStrategySpecPath,
-    "jwt.strategy.spec.ts"
+    'jwt.strategy.spec.ts'
   );
 }
 
@@ -79,6 +79,6 @@ async function mapJwtStrategySpecTemplate(
     };
   } catch (error) {
     console.error(error);
-    return { code: "", path: "" };
+    return { code: '', path: '' };
   }
 }

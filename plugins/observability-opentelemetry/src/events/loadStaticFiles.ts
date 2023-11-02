@@ -2,9 +2,9 @@ import {
   DsgContext,
   LoadStaticFilesParams,
   ModuleMap,
-} from "@amplication/code-gen-types";
-import { getPluginSettings } from "@utils/getPluginSettings";
-import { placeholders, staticPath } from "@/constants";
+} from '@amplication/code-gen-types';
+import { getPluginSettings } from '@utils/getPluginSettings';
+import { placeholders, staticPath } from '@/constants';
 
 export const afterLoadStaticFiles = async (
   context: DsgContext,

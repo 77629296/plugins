@@ -1,15 +1,15 @@
-import { Body, Controller, Post } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
-import { AuthService } from "./auth.service";
-import { Credentials } from "../auth/Credentials";
+import { Body, Controller, Post } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { AuthService } from './auth.service';
+import { Credentials } from '../auth/Credentials';
 
 declare class ENTITY_NAME_INFO {}
 
-@ApiTags("auth")
+@ApiTags('auth')
 @Controller()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-  @Post("login")
+  @Post('login')
   async login(@Body() body: Credentials): Promise<ENTITY_NAME_INFO> {
     return this.authService.login(body);
   }

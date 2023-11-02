@@ -1,6 +1,6 @@
 export enum RepositoryType {
-  Public = "public",
-  Private = "private",
+  Public = 'public',
+  Private = 'private',
 }
 
 export interface Settings {

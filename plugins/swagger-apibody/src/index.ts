@@ -3,18 +3,18 @@ import type {
   CreateEntityControllerBaseParams,
   DsgContext,
   Events,
-} from "@amplication/code-gen-types";
+} from '@amplication/code-gen-types';
 import {
   getClassDeclarationById,
   getClassMethodById,
   interpolate,
-} from "./util/ast";
-import { EventNames } from "@amplication/code-gen-types";
-import { builders, namedTypes } from "ast-types";
+} from './util/ast';
+import { EventNames } from '@amplication/code-gen-types';
+import { builders, namedTypes } from 'ast-types';
 
 const funcMethodMap = {
-  CREATE_ENTITY_FUNCTION: "CREATE_INPUT",
-  UPDATE_ENTITY_FUNCTION: "UPDATE_INPUT",
+  CREATE_ENTITY_FUNCTION: 'CREATE_INPUT',
+  UPDATE_ENTITY_FUNCTION: 'UPDATE_INPUT',
 };
 
 class SwaggerApiBody implements AmplicationPlugin {
@@ -45,13 +45,13 @@ class SwaggerApiBody implements AmplicationPlugin {
         const currDecorator = builders.decorator(
           builders.callExpression(
             builders.memberExpression(
-              builders.identifier("swagger"),
-              builders.identifier("ApiBody")
+              builders.identifier('swagger'),
+              builders.identifier('ApiBody')
             ),
             [
               builders.objectExpression([
                 builders.objectProperty(
-                  builders.identifier("type"),
+                  builders.identifier('type'),
                   builders.identifier(
                     funcMethodMap[funcName as keyof typeof funcMethodMap]
                   )
@@ -66,7 +66,9 @@ class SwaggerApiBody implements AmplicationPlugin {
 
       return eventParams;
     } catch (error) {
-      context.logger.error("Failed to invoke beforeCreateControllerBase event under swagger-api-body plugin");
+      context.logger.error(
+        'Failed to invoke beforeCreateControllerBase event under swagger-api-body plugin'
+      );
 
       return eventParams;
     }

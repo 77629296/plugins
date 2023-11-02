@@ -7,12 +7,12 @@ import type {
   CreateServerPackageJsonParams,
   DsgContext,
   Events,
-} from "@amplication/code-gen-types";
-import { EventNames } from "@amplication/code-gen-types";
-import { merge } from "lodash";
-import * as utils from "./utils";
-import { builders, namedTypes } from "ast-types";
-import * as constants from "./constants";
+} from '@amplication/code-gen-types';
+import { EventNames } from '@amplication/code-gen-types';
+import { merge } from 'lodash';
+import * as utils from './utils';
+import { builders, namedTypes } from 'ast-types';
+import * as constants from './constants';
 
 class RedisCachePlugin implements AmplicationPlugin {
   register(): Events {
@@ -57,7 +57,7 @@ class RedisCachePlugin implements AmplicationPlugin {
     utils.addImport(template, cacheModuleImport());
     utils.addImport(template, redisStoreImport());
 
-    if (!templateMapping["MODULES"]) {
+    if (!templateMapping['MODULES']) {
       throw new Error("Failed to find the app module's imported modules");
     }
 
@@ -104,35 +104,35 @@ class RedisCachePlugin implements AmplicationPlugin {
 
 const cacheModuleImport = (): namedTypes.ImportDeclaration => {
   return builders.importDeclaration(
-    [builders.importSpecifier(builders.identifier("CacheModule"))],
-    builders.stringLiteral("@nestjs/cache-manager")
+    [builders.importSpecifier(builders.identifier('CacheModule'))],
+    builders.stringLiteral('@nestjs/cache-manager')
   );
 };
 
 const redisStoreImport = (): namedTypes.ImportDeclaration => {
   return builders.importDeclaration(
-    [builders.importSpecifier(builders.identifier("redisStore"))],
-    builders.stringLiteral("cache-manager-ioredis-yet")
+    [builders.importSpecifier(builders.identifier('redisStore'))],
+    builders.stringLiteral('cache-manager-ioredis-yet')
   );
 };
 
 const cacheModuleInstantiation = () => {
   return builders.callExpression(
     builders.memberExpression(
-      builders.identifier("CacheModule"),
-      builders.identifier("registerAsync")
+      builders.identifier('CacheModule'),
+      builders.identifier('registerAsync')
     ),
     [
       builders.objectExpression([
-        objProp("isGlobal", builders.booleanLiteral(true)),
+        objProp('isGlobal', builders.booleanLiteral(true)),
         objProp(
-          "imports",
-          builders.arrayExpression([builders.identifier("ConfigModule")])
+          'imports',
+          builders.arrayExpression([builders.identifier('ConfigModule')])
         ),
-        objProp("useFactory", useFactoryConfigFunc()),
+        objProp('useFactory', useFactoryConfigFunc()),
         objProp(
-          "inject",
-          builders.arrayExpression([builders.identifier("ConfigService")])
+          'inject',
+          builders.arrayExpression([builders.identifier('ConfigService')])
         ),
       ]),
     ]
@@ -142,37 +142,37 @@ const cacheModuleInstantiation = () => {
 const useFactoryConfigFunc = (): namedTypes.ArrowFunctionExpression => {
   const factoryConfigFuncArgs = [
     builders.identifier.from({
-      name: "configService",
+      name: 'configService',
       typeAnnotation: builders.tsTypeAnnotation(
-        builders.tsTypeReference(builders.identifier("ConfigService"))
+        builders.tsTypeReference(builders.identifier('ConfigService'))
       ),
     }),
   ];
   const redisStoreArgs = [
     builders.objectExpression([
-      objProp("host", builders.identifier("host")),
-      objProp("port", builders.identifier("port")),
-      objProp("username", builders.identifier("username")),
-      objProp("password", builders.identifier("password")),
-      objProp("ttl", builders.identifier("ttl")),
+      objProp('host', builders.identifier('host')),
+      objProp('port', builders.identifier('port')),
+      objProp('username', builders.identifier('username')),
+      objProp('password', builders.identifier('password')),
+      objProp('ttl', builders.identifier('ttl')),
     ]),
   ];
 
   const factoryConfigFunc = builders.arrowFunctionExpression(
     factoryConfigFuncArgs,
     builders.blockStatement([
-      configAssign("host", "REDIS_HOST"),
-      configAssign("port", "REDIS_PORT"),
-      configAssign("username", "REDIS_USERNAME"),
-      configAssign("password", "REDIS_PASSWORD"),
-      configAssign("ttl", "REDIS_TTL", builders.literal(5000)),
+      configAssign('host', 'REDIS_HOST'),
+      configAssign('port', 'REDIS_PORT'),
+      configAssign('username', 'REDIS_USERNAME'),
+      configAssign('password', 'REDIS_PASSWORD'),
+      configAssign('ttl', 'REDIS_TTL', builders.literal(5000)),
       builders.returnStatement(
         builders.objectExpression([
           objProp(
-            "store",
+            'store',
             builders.awaitExpression(
               builders.callExpression(
-                builders.identifier("redisStore"),
+                builders.identifier('redisStore'),
                 redisStoreArgs
               )
             )
@@ -191,13 +191,13 @@ const configAssign = (
   key: string,
   ...others: any[]
 ): namedTypes.VariableDeclaration => {
-  return builders.variableDeclaration("const", [
+  return builders.variableDeclaration('const', [
     builders.variableDeclarator(
       builders.identifier(name),
       builders.callExpression(
         builders.memberExpression(
-          builders.identifier("configService"),
-          builders.identifier("get")
+          builders.identifier('configService'),
+          builders.identifier('get')
         ),
         [builders.stringLiteral(key), ...others]
       )

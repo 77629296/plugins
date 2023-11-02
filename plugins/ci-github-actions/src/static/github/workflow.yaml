@@ -7,8 +7,8 @@ concurrency:
 on:
   workflow_dispatch:
   push:
-    branches: ["*"]
-    paths: ["${{ SERVICE_DIRECTORY }}"]
+    branches: ['*']
+    paths: ['${{ SERVICE_DIRECTORY }}']
 
 env:
   REGISTRY: ghcr.io

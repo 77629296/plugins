@@ -7,14 +7,14 @@ import {
   LookupResolvedProperties,
   Module,
   types,
-} from "@amplication/code-gen-types";
+} from '@amplication/code-gen-types';
 import {
   controllerMethodsIdsActionPairs,
   controllerToManyMethodsIdsActionPairs,
   EnumMessageType,
   manyRelationMethodMessages,
   methodMessages,
-} from "./create-method-id-action-entity-map";
+} from './create-method-id-action-entity-map';
 import {
   Message,
   Method,
@@ -23,9 +23,9 @@ import {
   createScalarField,
   createObjectField,
   createMessage,
-} from "protobuf-dsl";
-import * as ProtobufSchemaDSL from "protobuf-dsl";
-import { pascalCase } from "pascal-case";
+} from 'protobuf-dsl';
+import * as ProtobufSchemaDSL from 'protobuf-dsl';
+import { pascalCase } from 'pascal-case';
 
 export async function createGrpcProtoFile(
   context: DsgContext,
@@ -139,7 +139,7 @@ export async function createGrpcProtoFile(
     };
   } catch (error) {
     console.error(error);
-    return { code: "", path: "" };
+    return { code: '', path: '' };
   }
 }
 
@@ -232,47 +232,47 @@ export const createProtobufSchemaFieldsHandler: {
     fieldName: string,
     countField: number,
     field: EntityField
-  ) => createScalarField(fieldName, "string", countField, false),
+  ) => createScalarField(fieldName, 'string', countField, false),
   [EnumDataType.MultiLineText]: (
     fieldName: string,
     countField: number,
     field: EntityField
-  ) => createScalarField(fieldName, "string", countField, false),
+  ) => createScalarField(fieldName, 'string', countField, false),
   [EnumDataType.Email]: (
     fieldName: string,
     countField: number,
     field: EntityField
-  ) => createScalarField(fieldName, "string", countField, false),
+  ) => createScalarField(fieldName, 'string', countField, false),
   [EnumDataType.WholeNumber]: (
     fieldName: string,
     countField: number,
     field: EntityField
-  ) => createScalarField(fieldName, "int32", countField, false),
+  ) => createScalarField(fieldName, 'int32', countField, false),
   [EnumDataType.DateTime]: (
     fieldName: string,
     countField: number,
     field: EntityField
-  ) => createScalarField(fieldName, "string", countField, false),
+  ) => createScalarField(fieldName, 'string', countField, false),
   [EnumDataType.DecimalNumber]: (
     fieldName: string,
     countField: number,
     field: EntityField
-  ) => createScalarField(fieldName, "int32", countField, false),
+  ) => createScalarField(fieldName, 'int32', countField, false),
   [EnumDataType.Boolean]: (
     fieldName: string,
     countField: number,
     field: EntityField
-  ) => createScalarField(fieldName, "bool", countField, false),
+  ) => createScalarField(fieldName, 'bool', countField, false),
   [EnumDataType.GeographicLocation]: (
     fieldName: string,
     countField: number,
     field: EntityField
-  ) => createScalarField(fieldName, "string", countField, false),
+  ) => createScalarField(fieldName, 'string', countField, false),
   [EnumDataType.Json]: (
     fieldName: string,
     countField: number,
     field: EntityField
-  ) => createScalarField(fieldName, "string", countField, false),
+  ) => createScalarField(fieldName, 'string', countField, false),
   [EnumDataType.Lookup]: (
     fieldName: string,
     countField: number,
@@ -304,19 +304,19 @@ export const createProtobufSchemaFieldsHandler: {
     fieldName: string,
     countField: number,
     field: EntityField
-  ) => createScalarField(fieldName, "string", countField, true),
+  ) => createScalarField(fieldName, 'string', countField, true),
   [EnumDataType.OptionSet]: (
     fieldName: string,
     countField: number,
     field: EntityField
-  ) => createScalarField(fieldName, "string", countField, true),
+  ) => createScalarField(fieldName, 'string', countField, true),
   [EnumDataType.Id]: (
     fieldName: string,
     countField: number,
     field: EntityField
   ) => {
     const { properties } = field;
-    const idType = (properties as types.Id)?.idType ?? "CUID";
+    const idType = (properties as types.Id)?.idType ?? 'CUID';
 
     return createScalarField(
       fieldName,
@@ -329,35 +329,35 @@ export const createProtobufSchemaFieldsHandler: {
     fieldName: string,
     countField: number,
     field: EntityField
-  ) => createScalarField(fieldName, "string", countField, false),
+  ) => createScalarField(fieldName, 'string', countField, false),
   [EnumDataType.UpdatedAt]: (
     fieldName: string,
     countField: number,
     field: EntityField
-  ) => createScalarField(fieldName, "string", countField, false),
+  ) => createScalarField(fieldName, 'string', countField, false),
   [EnumDataType.Roles]: (
     fieldName: string,
     countField: number,
     field: EntityField
-  ) => createScalarField(fieldName, "json", countField, false),
+  ) => createScalarField(fieldName, 'json', countField, false),
   [EnumDataType.Username]: (
     fieldName: string,
     countField: number,
     field: EntityField
-  ) => createScalarField(fieldName, "string", countField, false),
+  ) => createScalarField(fieldName, 'string', countField, false),
 
   [EnumDataType.Password]: (
     fieldName: string,
     countField: number,
     field: EntityField
-  ) => createScalarField(fieldName, "string", countField, false),
+  ) => createScalarField(fieldName, 'string', countField, false),
 };
 
 export const idTypeToProtobufScalarType: {
-  [key in types.Id["idType"]]: string;
+  [key in types.Id['idType']]: string;
 } = {
-  AUTO_INCREMENT: "int32",
-  AUTO_INCREMENT_BIG_INT: "int32",
-  CUID: "string",
-  UUID: "string",
+  AUTO_INCREMENT: 'int32',
+  AUTO_INCREMENT_BIG_INT: 'int32',
+  CUID: 'string',
+  UUID: 'string',
 };

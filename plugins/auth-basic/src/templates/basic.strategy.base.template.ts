@@ -1,8 +1,8 @@
-import { UnauthorizedException } from "@nestjs/common";
-import { PassportStrategy } from "@nestjs/passport";
-import { BasicStrategy as Strategy } from "passport-http";
-import { AuthService } from "../../auth.service";
-import { IAuthStrategy } from "../../IAuthStrategy";
+import { UnauthorizedException } from '@nestjs/common';
+import { PassportStrategy } from '@nestjs/passport';
+import { BasicStrategy as Strategy } from 'passport-http';
+import { AuthService } from '../../auth.service';
+import { IAuthStrategy } from '../../IAuthStrategy';
 
 declare class ENTITY_NAME_INFO {}
 

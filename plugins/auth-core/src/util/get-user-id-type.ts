@@ -1,5 +1,5 @@
-import { DsgContext, EntityField, types } from "@amplication/code-gen-types";
-import { AUTH_ENTITY_ERROR, AUTH_ENTITY_LOG_ERROR } from "../constants";
+import { DsgContext, EntityField, types } from '@amplication/code-gen-types';
+import { AUTH_ENTITY_ERROR, AUTH_ENTITY_LOG_ERROR } from '../constants';
 
 export const getUserIdType = (dsgContext: DsgContext) => {
   const { entities, resourceInfo } = dsgContext;
@@ -13,12 +13,12 @@ export const getUserIdType = (dsgContext: DsgContext) => {
   }
 
   const idField = authEntity.fields.find(
-    (field: EntityField) => field.dataType === "Id" // should be fixed moving dataTypes to a shared package
+    (field: EntityField) => field.dataType === 'Id' // should be fixed moving dataTypes to a shared package
   );
   if (!idField) {
-    throw new Error("User entity must have an id field");
+    throw new Error('User entity must have an id field');
   }
 
   const { idType } = idField.properties as types.Id;
-  return idType ?? "CUID";
+  return idType ?? 'CUID';
 };
